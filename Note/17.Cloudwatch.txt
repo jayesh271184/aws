@@ -1,0 +1,374 @@
+CloudWatch - CloudWatch is a monitoring and management service that provides data and actionable insights for AWS, 
+		hybrid,and on-premises applications and infrastructure resources.
+		- With CloudWatch, you can collect and access all your performance and operational data in form of logs and
+		metrics from a single platform.
+		- Monitoring Service of AWS
+		- Log Generate,Issue Check,Alarm/Notification Generate for Any Issue we can do this all things
+		- We create Custom Metrics   ------- Feature of CloudWatch
+		- Generate Logs				 ------- Feature of CloudWatch
+ 		- Generate Events			 ------- Feature of CloudWatch
+		
+ CloudWatch Work
+		Amazon CloudWatch is basically a metrics repository. An AWS service—such as Amazon EC2—puts metrics into the 
+		repository, and you retrieve statistics based on those metrics.You can configure alarm actions to stop, 
+		start, or terminate an Amazon EC2 instance when certain criteria are met.
+		
+		
+		- In CloudWatch Below Metrics available
+			- CPU Utilization
+			- Disk Read
+			- Disk Read Operation
+			- Disk Write
+			- Disk Write Operation
+			- Network In
+			- Network out
+			- Network Packet In
+			- Network Packet Out
+		- All of the above Metrics We create Alarm,If value above then threshold then give notification for this.
+		- For Notification We have to Use SNS Service,With the help of SNS Service Receive notification through 
+		  Email or MSG to your register mobile number.
+		
+		- Monitoring Type
+			1. Basic Monitoring - Here Monitoring in Every 5 Minute - By-Default AWS Monitoring this
+			2. Detail Monitoring - User Can Select Time Period,After How many Minute to check service,Here we can Monitoring
+					In Every 1 Minute - For this Monitoring User Provide charge
+			
+		- Create Custom Metrics Here
+			- Above Metrics Provided By AWS,But Here We create Our Own Metrics as per requirement
+			- In AWS Provided Metrics Storage & RAM(Memory) Metrics not available
+			- For Storage & RAM Metrics We have to create Custom Metrics
+			- For Storage & RAM Metrics Monitoring we have to Write Script.
+			- Script must be run on your EC2 Instance
+		
+		- Generate Logs here
+			Here We have to generete log for below
+			- APache
+			- /var/log/message --- Information Log
+			- /var/log/secure  --- Authentication related Logs
+			
+		- Generate Events Here
+			Here We create Rule for this,If any Event occur on service then give notification for this
+			Event Like Create,Delete,Update
+			For Example In EC2 Service If Create or Delete Instance/Security Group/snapshot/volume then give notification
+			 with the help of SNS service if SNS service Topic already created then
+			
+	System status Check
+		- Here Two type of Status check at time of creation of Instance
+			1. System Status Check - If We launch EC2 Instance then It create on AWS Datacenter,Instance Launch in Hypervisor
+						At time of Instance Creation AWS Check Any Issue in Hypervisor if Any Issue in Hypervisor then
+						System Status Check Fail ,then user can restart or Terminate instance.
+						At time of Instance Creation AWS Check the status is called System Status Check
+			2. Instance Status Check - It can check in AMI ,If any Issue in AMI then Instance Status Check show fail.
+						- It can check in Security or Booting file if any issue in Security or Delete any Booting related file
+						  then it can show status fail.
+						- It can Check on Service Level after creation if any Issue in Service related then show status fail
+				
+				Hypervisor 
+					- Mini OS
+					- Divide resources and create New Virtual machine
+					- We create multiple machine with the help of Hypervisor
+		- Like this System Status check if any Status Fail then if we create Alarm then give notification through SNS service for this
+		
+
+	- For Notification of System status Check we have to Create Topic with the help of SNS Service.
+
+-------------------------------------------------------------------------------------------------------------------
+	
+ SNS(Simple Notification Service) Service
+ 
+--------------------------------------------------------------------------------------------------------------------
+
+	 - For Notification We have to use this service
+	 - For SNS Service We have to create Topic
+	 - With the help of Topic We create Notification
+	 
+How to Create Topic
+	Service -> SNS -> Create Topic -> 
+	- Detail	
+		Name - Give Name to Topic
+		Display name - optional - WHich Name Display Write Here
+	- Encryption - optional -- For Encryption Enable then use this
+		- For Encryption Enable then Tick on Enable otherwise Disable
+	- Access policy - optional -- who can access your topic. 
+		Choose method - Select any one from this 1. Basic 2. Advanced
+			1. Basic - Use simple criteria to define a basic access policy
+				Define who can publish messages to the topic -- Select Anyone from Below
+					Only the topic owner -- Select this if Only Owner Can Publish Message to topic
+					Everyone 			 -- Select this If All can Publish Message to topic
+					Only the specified AWS accounts - Select this If any Perticular AWS Account can Publish Message to topic
+				Define who can subscribe to this topic - Select Anyone from Below
+					Only the topic owner - Select if Only Owner can subscribe to topic
+					Everyone - Select if All can subscribe to topic
+					Only the specified AWS accounts - Select if Perticular AWS Account can subscribe to topic
+					Only requesters with certain endpoints - Select if any Domain name to subscribe to topic
+			2. Advanced - Use a JSON object to define an advanced access policy.
+				Here provide JSON Format
+	- Delivery retry policy (HTTP/S) - optional - The policy defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.
+	  To modify the default settings, expand this section
+		If use default then select default Otherwise Select as per requirement below
+			Number of retries - How many time try to Notification Via Email/SMS
+			Retries without delay - Duration between number of Retries
+			Minimum delay - Provide Minimum Delay
+			Maximum delay -Provide Maximum Delay
+			Minimum delay retries
+			Maximum delay retries
+			Maximum receive rate
+			Retry-backoff function
+			Override subscription policy
+	- Delivery status logging - optional - These settings configure the logging of message delivery status to CloudWatch Logs
+	- Tags
+	- Create Topic
+	- After Create Topic We have to Create Subscription
+	
+How to Create Subscription
+	Select Topic -> Create Subscription
+	 - Detail
+		Topic ARN - No Write Anything already Write
+		Protocol - Select Protocol in which Protocol user send notification Like EMail,SMS,HTTP/S,AWS Lambda..Etc...
+		Endpoint - Give Endpoint as per Protocol Select
+	 - Subscription filter policy - optional - This policy filters the messages that a subscriber receives
+	 - Redrive policy (dead-letter queue) - optional - Send undeliverable messages to a dead-letter queue
+		Enable/Disable
+	 - Create Subscription
+	 - After Creation we have give Notification for confirmation on Selected Protocol to Confirm subscription
+	 - For Confirmation Link Send to Selected Protocol And Confirmation Done
+	 - Check Status then status Change to Confirmed
+	 - Like this We have to create Multiple Subscription for this
+
+How to use SNS Service
+	- Create Instance -> Select Instance -> Status Check -> Create Status Check Alarm
+	- Send Notification to - Select Topic Already Created
+		Take the action - Select from below
+			Recover this Instance - Recover to this instance After fail then Select this
+			Stop things Instance - Stop to this instance After fail then Select this
+			Terminate this Instance - Terminate to this instance After fail then Select this
+			Reboot this Instance - Reboot to this instance After fail then Select this
+		Whenever - Select from this - In Which Situation Notification Send 
+			Status check failed(Any) - Select if Status fail of Instance or System
+			Status check failed(Instance) - Select If Status fail of Instance
+			Status check failed(System) - Select If Status fail of System
+		For At least ________________ COnsecutive period of ________________
+				  How many Time check  						In Between how many Minute
+		For At least 2 COnsecutive period of  1 Minute - If Fail in 2 times in Every 1 min then it can take action from above we select
+		
+	- Create Alarm
+	
+	
+********************************************************************************************************************************
+System Metrics How to Display on CloudWatch Dashboard
+--- For this We have run some script with the help of script we can  Monitor some metrics
+	
+	How to show Metrics of Instance
+	Select EC2 Instance -> Monitoring -> Show All Metrics Here
+	
+	How to Enable Detail Monitoring
+	- Here 2 Option for this 
+		1. At time of Creation we can Do this
+		2. After Creation -- Select EC2 Instance -> Monitoring -> Enable Detailed Monitoring -> Yes,Enable
+	- In Detail Monitoring we pay charge But Upto 10 machine it is free not paying charge
+	- Above Monitoring We can Done Also in CloudWatch
+	
+How to Monitoring In CloudWatch 
+
+	Service -> CloudWatch -> Metrics -> All Metrics
+	- In All Metrics Show Metrics for all Like EC2,DynamoDB,ALB,Etc.... It can show Metrics for All service
+	- For Perticular Instance Check then Copy Instance Id & Paste here in CloudWatch Metrics,then it can show all metrics work on
+	  that Perticular Instance.
+	- Select Metrics as per requirement then it can show the graph of selected metrics
+	- How Many Time graph show here Like 1/3/5 hours or 1/2/3.. week or 1/2/3 month we can check here in upper side of Graph,
+	  If we require to change then we can do this max. 15 week.
+	- user can Also Change the Interval of from 10 second to 15 Minute , But It has some charges for this.
+	- 
+	
+	
+	
+How to Create Dashboard
+	- Select Metrics -> Action -> Add Dashboard -> Give Name -> Add Dashboard -> Save Dashboard
+	- Like this we create Dashboard for Metrics
+	- After Create Dashboard If any change Require like Refresh Interval or how many days data show we can all things manage here
+	- If change anything then save it.
+	- User also create Alarm on Metrics
+	
+	
+How to create Alarm on Metrics
+	- Service -> CloudWatch -> Alarms -> Create Alarm
+	- Metrics 
+		 Select Metrics
+			Select Metrics with the help of Instance Id 
+		 Select Metrics
+		 Metrics Name - Give name for Alarm creation
+		 InstanceId - Instance Id Selected Metrics
+		 Statics -  Average
+		 Period - Duration For Refresh
+	- Conditions
+		Threshold Type - Select Anyone from below
+		- Static - Provide Perticular Value for this - Select this
+		- Anomaly Detection - Use band as a Threshold
+		Define the alarm condition. - Provide Here if Value Greater then/Less then /Lower/Equal -- Select from this
+		Define the threshold value. - Provide threshold for this to create Alarm
+		Next
+	- Notification
+		Alarm state trigger - Define the alarm state that will trigger this action. from below select anyone
+			In Alarm  - Select this
+			ok
+			Insufficient Data
+		Select an SNS topic - Define the SNS (Simple Notification Service) topic that will receive the notification. From Below select anyone
+			Select Existing SNS topic
+			Create new topic
+			Use Topic ARN
+		Add Notification
+	- Auto Scaling action - IF Alarm Create Then Auto Scaling then do this here
+	- EC2 action - If Alarm Generate then EC2 Action any perform like Stop/Terminate/Reboot Instance then Do this Here
+	- Next
+	- Alarm Name - Give Name to Alarm
+	- Alarm description - optional - Give description of Alarm
+	- Next
+	- Create Alarm
+
+*******************************************************************************************************************************	
+Custom Metrics
+
+Create Storage & Memory Related Metrics
+ - For Storage & Memory Related Metrics We create With the help of Script
+ - User Run the Script for check Storage & Memory Related Data
+ - For Custom Metrics We have to run Script For Script(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/mon-scripts.html)
+ - Connect Instance in Mobaxtream then
+  sudo yum install -y perl-Switch perl-DateTime perl-Sys-Syslog perl-LWP-Protocol-https perl-Digest-SHA.x86_64
+  
+  mkdir /cloudwatch ----- create Folder for Package store
+  cd /cloudwatch
+  wget https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip
+  unzip CloudWatchMonitoringScripts-1.2.2.zip
+	rm -r CloudWatchMonitoringScripts-1.2.2.zip
+	cd aws-scripts-mon/
+	cp awscreds.template awscreds.conf   --- awscreds.conf File Create on this name
+	vim awscreds.conf  --- In this file we have to provide data AWSAccessKeyId & AWSSecretKey
+		For this Data we have to open IAM Service 
+		Service -> IAM -> Delete your root access keys -> Manage Security Credentials -> Access keys -> Create New Keys -> Show Access Keys
+		Copy Access Key Id & Secret Access key & Paste in VIM awscreds.conf file
+   ./mon-put-instance-data.pl --mem-util --verify --verbose  --- Check If Script Working properly or Notification
+   ./mon-put-instance-data.pl --mem-util    ---- For Memory Utilization Use this Run this CMD
+		After execute above cmd goto CloudWatch -> Metrics -> All Metrics -> Search Instance Id -> SHow Custom Namespace
+		In Custom Namespace show Custom Metrics Created for Memory Utilization show Here 
+		Like this we can do multiple Metrics create Here with the help of script	
+		Add This Metrics to Dashboard then goto Action -> Add Dashboard -> Add Dashboard -> Save Dashboard
+   ./mon-put-instance-data.pl --mem-avail    ---- For Memory Available Use this Run this CMD
+   ./mon-put-instance-data.pl --mem-used    ---- For Memory Used Use this Run this CMD
+		Like this we can add Multiple Metrics for Memory & Also add in Dashboard
+	for Disk Space Utilization
+	./mon-put-instance-data.pl --disk-path=/dev/xvda1 --disk-space-util ---- For Disk Utilization Run this Cmd
+	./mon-put-instance-data.pl --disk-path=/dev/xvda1 --disk-space-avail ---- For Disk Available Run this Cmd
+	./mon-put-instance-data.pl --disk-path=/dev/xvda1 --disk-space-used ---- For Disk Used Run this Cmd
+****** Like this we can send detail we can show this
+	Here we add all metrics above but it has one issue it can Monitor only at time when run script and script run only one time then 
+	It can show data at time of script run ,so we can run script multiple time,For solution for this we have create Crontab for this then
+	Our script run continuously 
+    
+	Crontab -e
+	* * * * * /cloudwatch/aws-scripts-mon/mon-put-instance-data.pl --mem-util --disk-space-util --disk-path=/dev/xvda1 --from-cron    ----- For Memory & Data Utilization
+	* * * * * /cloudwatch/aws-scripts-mon/mon-put-instance-data.pl --mem-avail --disk-space-avail --disk-path=/dev/xvda1 --from-cron    ----- For Memory & Data Available
+	* * * * * /cloudwatch/aws-scripts-mon/mon-put-instance-data.pl --mem-used --disk-space-used --disk-path=/dev/xvda1 --from-cron    ----- For Memory & Data Used
+			 (Location for Script Stored)
+    After done this goto metrics & check then it can show all 6 new created metrics then we have to add this into Dashboard then we can do this
+	Like this we can CHeck Disk & Memory Related Data in Every One minutes
+	If we create Alarm for this then we can also do this here
+	
+
+********************************************************************************************************************************
+How to Generate Logs in CloudWatch
+********************************************************************************************************************************
+
+  - User Run Multiple Machine then user can check the logs of machine then user can access to  machine every time & check log
+	for solution to this with the help of cloudwatch user can check logs of machine.
+  - For this We have to Install some packet on machine.
+  - We have connect machine then run below cmd
+	yum install awslogs*								----- Install awslogs Package
+	systemctl enable --now awslogsd.service 			----- Start & Enable Service
+	cd /etc/awslogs/									----- Goto Home Directory of awslogs Service
+	vim  awscli.conf									----- Edit in AWSLogs COnf file
+		[plugins]
+		cwlogs = cwlogs
+		[default]
+		region = us-east-1								----- Provide Region In which region Logs we have to show in CloudWatch
+	Save it
+  - CloudWatch Directly access to EC2 Service by-Default then for this we have to create IAM Role for this
+  
+  Create IAM Role
+  - Service -> IAM -> Roles -> Create Role -> EC2 Service -> Next Permission -> 
+	Select CloudWatchLogsFullAccess						----- Search & Select this Child Service
+	Next.Tags
+	Add Tags											----- Add Tag
+	Review -> 
+	Role Name											----- Give Name to Role
+	Create Role
+ 
+ 
+ - After create Role Attach role to EC2 Instance
+ - Select EC2 Instance -> Action -> Instance Setting -> Attach/Replace IAM Role -> Select IAM Role Created -> Apply
+ - Restart awslogs Service 
+	systemctl restart awslogsd.service
+ - Check in CloudWatch -> Log Groups 
+ - Show the Logs of /var/log/message
+ - Select /var/log/message then goto log stream -> Select Instance Id then show logs for this Instance
+ - Here we show logs of /var/log/message then if we have to also check logs of Apache(Httpd) then we can also do this here
+ - Here We have to add detail for Apache logs storege Location in COnfiguration file
+	cd /etc/awslogs/
+	vim awslogs.conf									----- Edit on awslogs configure file
+  Press shift+g
+	Copy below data
+		[/var/log/messages]
+		datetime_format = %b %d %H:%M:%S
+		file = /var/log/messages
+		buffer_duration = 5000
+		log_stream_name = {instance_id}
+		initial_position = start_of_file
+		log_group_name = /var/log/messages
+	Paste & Change As per requirement
+	[Apache Logs]										----- Name shown in Log Group
+	datetime_format = %b %d %H:%M:%S
+	file = /var/log/httpd/access_log					----- Provide Path where log save in Ec2 Instance
+	buffer_duration = 5000
+	log_stream_name = Apache_Server{instance_id}		----- Name of Log Stream if change then do this here
+	initial_position = start_of_file
+	log_group_name = Apache								----- Log group name
+	
+	Save this
+	Restart Service
+	systemctl restart awslogsd.service
+	
+ - After done this then check in Log Group then it can show Apache Group server then we can check logs here Like this
+ - For Log Check in Instance	
+	/var/logs/											----- For check logs of multiple service we can check here
+ 
+ - Like this we can check log with the help of CloudWatch
+ 
+ 
+******************************************************************************************************************************
+How to Generate Event in CloudWatch
+******************************************************************************************************************************
+	- Here we Create Rule for this If Any Action Perform on service then it can do Like Send Notification or Service Start/stop/terminate/Trigger 
+		any service Like this we can do this here.
+	- Any Operation Perform on service then it can give notification for this
+	- For this we have to create Rule for this
+
+	
+How to create Rule
+	- Service -> CloudWatch -> Events -> rules -> Create rule -> 
+	- it has 2 Method for this select from this
+		1. Event Pattern  -- Here we provide Pattern for Event related Notification    -- -Select this
+			Service name - Select Service on which we have to create event
+			Event Type	- Select Event In which Event receive Notification select here
+		2. Schedule		-- Here we Schedule task for Notification(Schedule to Invoke Target)
+			Select from below
+				- Fixed rate of 			-- Provide Time for Schedule to Invoke target
+				- cron Expression			-- Help of Cron expression to schedule to invoke target
+	- Targets
+		Add Target
+			Select Target
+	  Configure Detail
+	- Name - Give name to Event
+	  Description - Give Description for this event
+	  Create Rule
+	  
+ - Like This we have create Event
+	

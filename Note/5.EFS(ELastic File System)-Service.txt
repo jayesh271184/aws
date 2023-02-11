@@ -1,0 +1,73 @@
+EFS - Elastic File System
+		- Amazon EFS is a regional service storing data within and across multiple Availability Zones (AZs) for high 
+		  availability and durability. Amazon EC2 instances can access your file system across AZs, regions, and 
+		  VPCs, while on-premises servers can access using AWS Direct Connect or AWS VPN.
+		- Amazon Elastic File System is a cloud storage service provided by Amazon Web Services designed to provide 
+		  scalable, elastic, concurrent with some restrictions, and encrypted file storage for use with both AWS 
+		  cloud services and on-premises resources.
+		- Use for Share Device
+		- Manage FIle Storage for EC2
+		- SHared Drive
+		- Single Volume Multiple Machine/server
+		- At time of Creation In Security Group Must select NFS Service in INbound Traffic
+		
+How to Create EFS
+		- Select EFS Service in Service
+		- Configure Network Access
+			Select VPC
+		- Select Mount Target
+			Machine Create on Which Zone this ZOne select Here,If you select Different zone then we can not attach this volume to this machine
+			Select Security group as per requirement If Security Group not create then Create (Like if we require NFS Service then We have to Create Security Group First then Select this group here)
+			- How to Create Security Group
+				EC2 Service -> Network & Security -> Security Group
+				Create Security Group
+				Give name to security group
+				DIscription for Group
+				Select VPC
+				Select Inbound rules - Add Here What service Use 
+										Select NFS Service
+				Create Security group
+		- Add Tags - Give name for Identification
+		- Enable Lifecycle management
+				- Here we have to see about Billing if we have not use Out Data stored in Drive is certain time period then
+				  Move on infrequent access storage,Bcz their charge is low compared to other,By default all data stored in Standard
+				  In Standard Charge is Minnor High
+				  In infrequent Storege automatically use at that time when some data not use in 2 days.
+				  SO we have to saving our up to 92%
+		- Choose throughput mode
+				- Bursting - for most file systems.
+				- Provisioned - for applications that require more throughput.
+		- Choose performance mode - How many system to require to attach this storage.
+				- General purpose - for most file systems
+				- Max I/O - for applications where tens, hundreds, or thousands of EC2 instances are accessing the file system.
+		- Enable encryption- If you enable encryption for your file system, all data on your file system will be encrypted at rest. 
+		
+		- File system policy - Here we have to add policy for IAM Service then do it.
+				- A file system policy is an IAM resource policy that applies to all NFS clients connecting to this file system. 
+		- Next
+		- Create file system
+		
+	How to Use EFS
+		- Lunch Machine
+		- If you're using an Amazon Linux EC2 instance, install the EFS mount helper with the following command:
+				sudo yum install -y amazon-efs-utils
+		- If you're not using the EFS mount helper, install the NFS client on your EC2 instance:
+				On a Red Hat Enterprise Linux or SUSE Linux instance, use this command:
+				sudo yum install -y nfs-utils
+				On an Ubuntu instance, use this command:
+				sudo apt-get install nfs-common
+		- Mounting your file system
+		 Open an SSH client and connect to your EC2 instance. (Find out how to connect).
+			Create a new directory on your EC2 instance, such as "efs".
+				sudo mkdir efs
+		 Mount your file system with a method listed following. If you need encryption of data in transit, use the EFS mount helper and the TLS mount option. Mounting considerations
+			Using the EFS mount helper:
+				sudo mount -t efs fs-5f6eed8e:/ efs
+			Using the EFS mount helper and the TLS mount option:
+				sudo mount -t efs -o tls fs-5f6eed8e:/ efs
+			Using the NFS client:
+				sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-5f6eed8e.efs.ap-south-1.amazonaws.com:/ efs
+		- Then Add some data in One machine
+		- Same Connect another machine and follow above step
+		- Mount volume then check 
+		- both machine has show same data

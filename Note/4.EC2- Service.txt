@@ -1,0 +1,315 @@
+EC2 - Elastic Compute Cloud
+	- Amazon Elastic Compute Cloud is a part of Amazon.com's cloud-computing platform, AWS,
+	that allows users to rent virtual computers on which to run their own computer applications.
+An AWS EC2 Instance is nothing but a server in the cloud. Just like your physical server,
+ it comes with varying specs for compute, memory, networking, and storage.
+
+EC2 (Elastic Compute Cloud) - Amazon Elastic Compute Cloud is a part of Amazon.com's cloud-computing 
+	platform, AWS, that allows users to rent virtual computers on which to run their own computer applications.
+	- An AWS EC2 Instance is nothing but a server in the cloud. Just like your physical server, it comes with
+	  varying specs for compute, memory, networking, and storage.
+    - EC2 is a web service that provides secure, resizable compute capacity in the cloud.
+    - It is designed to make web-scale cloud computing easier for developers. Amazon EC2's simple web service 
+	  interface allows you to obtain and configure capacity with minimal friction.
+    - EC2 provides scalable computing capacity in the Amazon Web Services (AWS) cloud. You can use Amazon EC2 
+	  to launch as many or as few virtual servers as you need, configure security and networking, and manage storage.
+
+  -- Purchase or rent  Server/Virtual Machine
+  - We have Add 
+		- Compute Power
+		- ram - provide 700 + Gb ram use with single machine It can be handle with our 2gb laptop normally Without load in our system
+		- Storage (Elastic Block Storage) 
+		- speed - within Few Click we have purchase Server Means Its Speed very high We have deploy server very easy and fast
+		- Scalable - Very easy to add or remove server/virtual machine.
+		- Purchase - Multiple Purchase option available
+					on-demand - At time of use we have rent the server & pay only use time(Jitna Use kiya utne k hi Charge dene k)
+					Dedicated - Purchase for 1 or 3 year,If we use or not but we give charge for 1 or 3 year (Use kre k nhi uske 1 or 3 year ka charge pay krna hi hai)
+					spot - AWS Bidding its Server who have bidding highest then it can use this server (Bidding = Boli lagana Jo boli jyada lagayega uska ho jayega)
+					reserved - Resource is reserved for user but if user is not in use then AWS bidding this server.
+		- Public ip / Private Ip - If we purchase any server we provide public & Private Ip.
+					Public ip - For System Access (No any Charge Every 6 Hour Ip Will CHange If you have to require not my ip change then purchase Elastic Ip)
+					Private Ip - For Intercommunication use of our company without internet
+		- Elastic Ip - User purchase Ip its call Elastic Ip.Its charges appox 4.5 rs/hours
+		- Load Balancing - If Load increase then use another system for load divide into 2 system.
+		- Security Group(Firewall) - Traffic Flow maintain,user can manage what service use and what not in use,We have align port here for service what service use & what service not use
+		- AMI (Amazon Machine Image) - Its call one type of "ISO" file With the help of ISO file we have lunch our system Like we have to install Windows then we have to use Windows ISO file.
+		- Auto Scaling - Create Condition For Load Increase load if we have only one system 
+				Like - load > 60% then lunch mulitple instance
+					   Load < 40 % then remove all instance except one.
+			then load increase at day or night automatically New instance Lunch. Not use in on-premise.Its only available in cloud
+		- snapshots -- Its Call Backup,If we have snapshot of machine then we can restore it to use,Its call one type of backup
+		- Logs and events generate through cloudwatch - Any process occur then it can generate logs for all events
+
+		
+EC2 Purchasing Option:- Four Type
+ 1. On Demand Instance
+ 2. Reserved Instance
+ 3. Spot Instance
+ 4. Dedicated Instance
+ 
+1. On Demand Instance -
+				We have to pay only we use(Jitne hours use kiya uska charge dena hai)
+				
+2. Reserved Instance - Purchase for 1 or 3 year,If we use or not but we give charge for 
+   1 or 3 year (Use kre k nhi uske 1 or 3 year ka charge pay krna hi hai). In comparison to On-demand charge less.
+   Provide significant discount upto 72% compared to on-demand instance prise.
+   In Reserved instance Bidding AWS if not in use.
+   
+   Standard Reserved Instances provide you with a significant discount (up to 72%) compared to On-Demand Instance 
+   pricing, and can be purchased for a 1-year or 3-year term. Customers have the flexibility to change the 
+   Availability Zone, the instance size, and networking type of their Standard Reserved Instances.
+
+   Purchase Convertible Reserved Instances if you need additional flexibility, such as the ability to use different
+   instance families, operating systems, or tenancies over the Reserved Instance term. Convertible Reserved 
+   Instances provide you with a significant discount (up to 54%) compared to On-Demand Instances and can be purchased
+   for a 1-year or 3-year term.
+	
+	Two Type of Plan for this
+	1. 1 year plan
+		- Standard
+		- convertible
+    2. 2 year Plan
+		- Standard
+		- convertible
+3. Spot Instance -
+			- AWS Bidding its Reserved Instance If User not Work currently 
+			- Its Call Bidding,AWS Bidding its server Max 6 Hours Use Resource after six hours 2nd time bidding for Instance
+			- Bidding for instance per hours.
+			- Costing is Less Compare to on Demand, upto 90% Discount in Comparison to on demand.
+			- If AWS has getting highest bidding any other user then current user work stop in between his work progress has been lost 
+			  instance align to new bidding user.
+			- In Between this Reserved instance Main User who purchase this reserved instance his work Restart then 
+			  all bidding user work stop and lost his all data
+				(Current user se jyade kisine boli laga di to current user ka kam bich me bandh kr k new user jisne boli jyada
+				lagai usko mil jayega aur current user ka work lost ho jayega in Between this Reserved instance Main User who purchase this reserved instance his work Start then all bidding user work stop and lost his all data).
+			- It can use for Testing purpose.
+
+4. Dedicated Instance - 
+			- Purchase for 1 or 3 year,If we use or not but we give charge for 1 or 3 year (Use kre k nhi uske 1 or 3 year ka charge pay krna hi hai)
+
+EC2 Instance Type -Its Also Call Family (https://aws.amazon.com/ec2/instance-types/)
+1. General Purpose
+2. Memory Optimized
+3. Compute Optimized
+4. Accelerated Compute
+5. Storage Optimized
+
+   If we Purchase Dedicated instance then its type is ".metal" Ex. c5.metal
+   
+1. General Purpose - General purpose instances provide a balance of compute, memory and networking resources,
+       and can be used for a variety of diverse workloads.
+	   - These instances are ideal for applications that use these resources in equal proportions such as web 
+	   servers and code repositories. 
+	   - It can Provide Multiple Instance Type With Different Type of Memory CPU etc
+ Use Case :- Scale-out workloads such as web servers, containerized microservices, caching fleets, and distributed 
+ data stores, as well as development environments
+ 
+2. Compute Optimized - It can Max. use where we have require "High performance ".
+	   - Compute Optimized instances are ideal for compute bound applications that benefit from high performance processors.
+	   - Use for ( Instances belonging to this family are well suited for) batch processing workloads, media transcoding, 
+	   high performance web servers, high performance computing (HPC), scientific modeling, dedicated gaming servers
+	   and ad server engines, machine learning inference and other compute intensive applications.
+	   - It can Provide Compute power High that means "Virtual CPU(vCPU) Jyada milta hai"
+ Use Case :- High performance web servers, scientific modelling, batch processing, distributed analytics, high-performance 
+ computing (HPC), machine/deep learning inference, ad serving, highly scalable multiplayer gaming, and video encoding.
+ 
+3. Memory Optimized - Use for to "Deliver fast performance "for workloads
+	  - Memory optimized instances are designed to deliver fast performance for workloads that process large data
+	  sets in memory.
+	  - "It can Provide Max RAM "
+ Use Case :- R5 instances are well suited for memory intensive applications such as high performance databases, 
+ distributed web scale in-memory caches, mid-size in-memory databases, real time big data analytics, and other 
+ enterprise applications.
+ 
+4. Accelerated Compute - Attach GPU then It can work fast
+	  - Accelerated computing instances use hardware accelerators, or co-processors, to perform functions,
+	  - Use such as floating point number calculations, graphics processing, or data pattern matching, more 
+	  efficiently than is possible in software running on CPUs.
+	  - "If we require fast output with High performance" at that time we have use(Used at NASA,ISRO).
+ Use Case :- Machine/Deep learning, high performance computing, computational fluid dynamics, computational 
+ finance, seismic analysis, speech recognition, autonomous vehicles, drug discovery.
+
+5. Storage Optimized - It can "use where Large amount of storage Size required" 
+	  - Storage optimized instances are designed for workloads that require high, sequential read and write
+	  access to very large data sets on local storage.
+	  - They are optimized to deliver tens of thousands of low-latency, random I/O operations per second (IOPS)
+	  to applications.
+ Use Case :- NoSQL databases (e.g. Cassandra, MongoDB, Redis), in-memory databases (e.g. Aerospike), scale-out 
+ transactional databases, data warehousing, Elasticsearch, analytics workloads.
+ 
+ 
+Placement Group - If we use Multiple Instance then use this. It can show at max. level to found where my server mount. Find Max. level not perferct level
+1. Spread
+2. Cluster
+3. Partition
+
+  1. Spread - It can mount multiple instance at different Zone.
+	- If We use 2 Server(Instance) then both Instance Mount at different Zone then If any of the Zone has get any Issue 
+	at that time our work will be continue with the help of another instance, But Latency will be increase
+	- If we launch Instance then it can mount any where in zone,It can not mount at particuler zone.
+	- Advantages - Data secure bcz Both Locate different Location,If one Zone get down then work from another zone.
+	- Disadvantage - If both Server inter communicate at that time latency normally high
+  2. Cluster - It can mount in Single zone and single rack.
+    - In single Rack multiple Instance Lunch
+    - Advantages - Communication fast latency low
+	- Disadvantage - If any issue in Rack then all instance Down(Full Server Down)
+	- We have to create max 100 Cluster,In 1 Cluster max 7 instance mount
+  3. Partition - Lunch instance in Single zone,Multiple Rack
+	- Advantages - If one Rack Down then work continue with another rack, Latency Low Compare to Spread
+	- Disadvantage - If Zone Down then Full Setup Down(Work Stop)
+	
+	
+Maximum we have to use Spread Bcz It is secure,If one zone down then work from another zone
+	
+
+How to Create Instance
+
+	go to EC2  
+	Running Instance
+	Lunch Instance
+	Select ISO
+	Select Instance Type
+	Configure Instance Detail
+		Number of Instance - How many Instance Create
+		Purchasing option - Select Spot Instance if required, Select Max. Prise for bidding,
+							Persistent request select if We Bidding new instance after current instance complete 
+							then they automatically provide new instance
+		Network	- Select network
+		subnet 	- Select subnet (AZ Select)
+		Auto Assign Public Ip - Enable(Automatic Assing IP)/disable(Not Assng IP)
+		Placement Group	- Select Placement group (Cluster ,spread,partition) Give name to that group
+		Capacity Reservation - For Capacity Reservation
+		IAM Role - Select IAM Role If already Create
+		Shutdown Behavior - Select stop - (Machine Is in Pause Mode After Start then it can continue) / 
+							Terminate - (Machine Terminate Not Open 2nd Time,Data Lost)
+		Stop - Hibernate behavior - Select If machine stop then then RAM is Utilize for this machine if not select then RAM Will free.
+		Enable termination protection - Select if Anyone Accidently terminate machine at that time show msg & not terminate machine.
+		Monitoring  - AWS Monitor Every 5 Min,But if we require to monitor every 1 min then Select
+		Tenancy	- Select Tenancy if we required to use shared or dedicated Instance
+		T2/T3 Unlimited	- For Speed Improvement.
+		File System - For Use Any File System.
+		
+		Advanced Details - At time of Boot Process we have add any Command then we can do this here.
+	Add Storage	- Add storage to here with multiple Option
+		Size - as per ISO Size fix Max. 30Gb free for Free tier
+		Volume Type - Select Volume Type 
+		Delete on Termination - Select if Delete the volume at time of Instance Terminate.
+	Add Tags - For Identification
+	Configure Security Group - Configure Security Group for Port allow-disallow	
+	Review and lunch instance
+	Lunch
+
+How to connect instance - 
+	1. Direct Connect
+	2. WIth help of Mobaxtream
+	3. Putty
+	
+	1. Direct Connect - Connect Direct with the help of Browser and connect
+	2. Mobaxtream	- 
+				Select Session
+				select session type ( SSH,RDS)
+				Select IP,Username
+				Connect 
+	3. Putty - 
+		Generate .ppk key With help of puttygen software
+		In Putty select username@ip
+		In Putty Category -> ssh -> auth -> Select Authorise key with extension .ppk
+		then connect	
+		
+EBS (Elastic Block storage)- 
+	EBS has mulitple Type
+	EBS Type Divide into 2 Types
+		1. IOPS(Input output per second) - How many Read/write operation Perform in second
+		2. Throughput - Single operation Size
+		
+		
+		
+Type :-
+1. SSD (Solid State Drive)
+2. HDD (Hard Disk Drive)
+3. Magnetic	
+	`
+1. SSD (Solid State Drive)
+		SSD Speed is Faster then HDD & Magnetic.
+		2 Type. 
+			1. gp2 (General Purpose)
+					IOPS - Upto 16000 = in 1 second we perform Max 16000 operation
+					Throughput - 250 mb = 1 operation size is 250 mb
+								It can provide 3906 gb/s speed provide
+			2. io1 (Provisioned IOPS)
+					IOPS - Up to 64000 = in 1 second we perform Max 64000 operation (3 Times higher then gp2)
+					Throughput - 1000 mb = 1 operation size is 1000 mb
+								It can provide 61000 gb/s speed provide
+2. HDD (Hard Disk Drive) 
+		2 Type.
+			1. st1 (Throughput optimized)
+					IOPS - Up to 500 = in 1 second we perform Max 500 operation 
+					Throughput - 500 mb = 1 operation size is 500 mb
+					can not be used at boot volume
+					
+			2. sc1 (Cold Hdd) - It is very cheapest in all four
+					IOPS - Up to 250 = in 1 second we perform Max 250 operation
+					Throughput - 250 mb = 1 operation size is 250 mb
+					can not be used at boot volume
+					
+3. Magnetic	
+		1 Type
+			1. std
+					IOPS - 40-200 = in 1 second we perform Max 40-200 operation
+					Throughput - 50-90 mb = 1 operation size is 50-90 mb
+	
+	Here we have use 3 volume as boot volume (Means Operating system add ,At time of machine create require some space at time we have use this below Jaha par hmari operating related file padi hai,Jaha pr hum Operating System Install kr rahe hai)
+			1. gp2		2.io1		3. Magnetic	
+	 
+	At time of Instance Create Max Size is 1023 Gib
+	
+	If We use volume and any work in this volume,after work done if volume detach and attach other instance But our data is safe we have show our data.
+	We have increase Volume size after create volume. Action -> Modify volume -> change Size of volume.
+	Single Volume for Single Machine
+	After Volume create & Attach 1st we have to format this volume and mount volume then use it.
+	In Linux
+	mkfs.xfs /dev/sda(Volume name)
+	mount /dev/sda	/chintan (Mount Point)  - Mount the Volume then we have use it.
+	
+		
+Volume Create - 
+	Go to Volume
+	Create volume select
+	Select Volume type,Size,AZ,Snapshot Id(Not mendotory),Add tag 
+	Create Volume.
+	
+	At time Volume Create We have must select those availibilty zone Where instance Create on Zone(Jis zone me Instance Create kiya hai usme hi Volume create Krna hai)
+
+Volume Attach - Volume Attach after instance Create or if Any Instance terminate & We have to retrive data from this volume then we use
+	Select Volume
+	Actions -> attach volume -> Select Instance
+	
+Volume Detach - Volume not in use at Instance then detach volume
+	Select Volume
+	Actions -> detach volume -> yes,detach
+	
+ 
+AMI 
+	We have to create AMI our OWN with the help of Instance
+	It can be use at time we have to create instance with same configuration at that time we have use this type of ISO AMI.
+	It can use at Auto scalable Future,If we create new AMI with Existing feature at night so we have directly create it.
+	
+How to Create AMI - 
+    Select Instance
+	go to Action
+	select Image -> Create Image 
+	Type Image Name
+	Type Image Discription
+	Create Image
+	
+How to Check AMI
+	Images -> AMIS
+	Image Only One Create & Volume is How Many Volume Use in Instance Is Create (Like if 2 volume use in Instance then
+	1 AMI Create & 2 Volume Create) Volume Also Called "Snapshot"
+	If we try to Delete snapshot without AMI then It can not Possible to delete snapshot
+	
+How to Use New Create Own AMI
+	Instance -> My AMIs -> Select Own Create Instance
+	If we change anything in this AMis then it is possible change lIke Type,Size etc..
+
+	

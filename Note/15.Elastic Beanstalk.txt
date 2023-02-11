@@ -1,0 +1,67 @@
+Elastic Beanstalk - Run and Manage Web Apps
+				  - It is a PAAS(Platform as a Service)
+				  - AWS Elastic Beanstalk is an orchestration service offered by Amazon Web Services for deploying applications 
+					which orchestrates various AWS services, including EC2, S3, Simple Notification Service (SNS), 
+					CloudWatch, autoscaling, and Elastic Load Balancers.
+				  - Elastic Beanstalk employs Auto Scaling and Elastic Load Balancing to scale and balance workloads.
+    				It provides tools in the form of Amazon CloudWatch to monitor the health of deployed applications.
+	    			It also provides capacity provisioning due to its reliance on AWS S3 and EC2.
+				  - Deploy Any Website we have require below Service
+					EC2
+					Security Group
+					Elastic IP
+					EBS
+					ELB
+					Route 53
+					Auto Scaling
+					RDS
+					VPC
+			   	 - Admin Has Full Knowledge about If website deploy at that time How to use above service use Like Which type of Instance Use,Security Group
+				   Auto Scaling,etc.. ,But Developer has not proper idea about this to how to use above service ,So,Elastic Beanstalk Provide
+				   Environment to Deploy his website to Developer,Developer has only put his Coding here then AWS Provide Directly
+				   EC2 Instance,Auto Scaling,ELB,Multiple Website Version,VPC,Security Group ,S3 all this service Manage Directly By AWS.
+				 - That Means Developer has provide only coding of website & Platform(In Which language Your Coding),Then Rest of all
+				   Manage By AWS
+				 - So, Work is Very Easy For Developer then Developer concentrate to his coding,He has no any tension regarding Environment
+				   Creation for website
+				 
+How to Create Environment for Elastic Beanstalk
+
+	- Service -> Elastic Beanstalk -> Create Application
+	- Application Information
+		Application Name - Give name 
+	- Environment Information
+		Environment Name - Give Name to Environment 
+		Domain - Give Domain Name & then check availability
+		Description - 
+	- Platform - Here Specify Code Write on which language
+		Platform - Select Language coding
+		Platform Branch - 
+		Platform Version - Select Version
+	- Application code
+		Select from Below
+			Sample Application - Sample Coding Already Store,If Sample Website launch then select this
+			Upload your code - Developer Create Coding then select this If Select This then provide Below Detail
+				Source code origin
+					Select From Below
+					1. Local File - Coding File Available then upload here so select this
+					2. Public S3 URL - If Data is on S3 & Domain Name Create Then Paste here domain name of site
+	- After Done goto Configure more option for if any change in configuration then goto here
+		If any change Require in EC2 Instance, Log Storage,Load Balancer,Softwere any change require then we can do this otherwise it
+		Select By Default setting.
+	- Create Application
+	- After Create then all require resource create automatically like Instance,ALB,Security Group
+	
+	- After EC2 Instance Create We have to access EC2 Instance at that time Key require,But Currently we have no
+	  Key available for this.
+	- How to Add Key
+		Goto Environment -> Select Created Environment on Left side of Window -> Configuration - >Security -> Edit
+		-> Virtual machine permissions -> Select Keypair Already Created -> Apply
+	- After Key pair add Current Running Instance not get effect Keypair It create New Instance & Change done will 
+	  Show in the New Instance Creation,Instance Create Automatic
+	- New Instance Create was IP Must be same as previous Instance Ip,IP not change
+	- After Done this For Access the Website with the help of DNS Name Created By Elastic Beanstalk
+	- DNS Name shown in Environment
+	- After Keypair Add New Instance Launch then we have access Instance ,If we have any change in EC2 Instance with the
+	help of SSH is Lost if Instance is replaced by Auto-scaling.
+	

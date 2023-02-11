@@ -1,0 +1,312 @@
+RDS - Relational Database Service
+		- It is a web service that makes it easier to set up, operate, and scale a relational database in the AWS Cloud.
+		- It provides cost-efficient, resizable capacity for an industry-standard relational database and manages common
+		  database administration tasks.
+		Database - Collection of Data/information in Tabular form
+	   			   Mainly Our Data Stored in Table form so we can easy to access
+				   Manage relational database service
+		Type of Database two
+				1. SQL(RDS)
+				2. NoSQL (DynamoDB)
+	- Database Engine
+		- Oracle 		(Available in AWS)
+		- Mysql			(Available in AWS)
+		- mysqlserver 	(Available in AWS)
+		- AWS Aurora 	(Available in AWS)
+		- postgrepSQL 	(Available in AWS)
+		- mangodb 		(Available in AWS)
+	
+	- IN RDS AWS stored database of Webserver,If Website may have any issue but our database stored in RDS then it safe ,For Website We have to Launch another Instance
+	- Example - In Gmail If we give correct Id Password then go to Mail otherwise getting error,Like this 1st authentication done then enter to database.
+	- In EC2 Instance With the help of Ip We have access Like this "DB Instance Access with the help of endpoint"
+	- DB Instance it is also server like EC2 Instance
+- Types of Deployment is 3
+	1. Single AZ
+	2. Multi AZ
+	3. Read Replica 
+	
+	1. Single AZ - Instance Deploy in One Zone.
+				   It provide one DB Instance(Server) & one Endpoint
+	
+	2. Multi AZ	 - If we Deploy one instance then Multi AZ automatically create another Instance in Different AZ for Backup.
+				 - It provide One Endpoint & 2 Instance(Server)
+				 - If any Issue in Regular Instance then all request Divert to Backup Instance,By Default Synchronisation of both server.
+				 
+	3. Read Replica - A read replica is a copy of the master that reflects changes to the master instance in almost real time. 
+					- You create a replica to offload read requests or analytics traffic from the master. 
+					- You can create multiple read replicas for a single master instance.
+					- The read replica operates as a DB instance that allows only read-only connections;
+		How Read Replica Work				
+				- When you create a read replica, you first specify an existing DB instance as the source.
+				- Then Amazon RDS takes a snapshot of the source instance and creates a read-only instance from the snapshot
+				- Amazon RDS then uses the asynchronous replication method for the DB engine to update the read replica whenever
+				there is a change to the source DB instance.
+				- The read replica operates as a DB instance that allows only read-only connections
+				- Applications connect to a read replica the same way they do to any DB instance. 
+				- Amazon RDS replicates all databases in the source DB instance.
+				- In some cases, a read replica resides in a different AWS Region than its source DB instance.
+				- In these cases, Amazon RDS sets up a secure communications channel between the source DB 
+				instance and the read replica.
+				- Amazon RDS establishes any AWS security configurations needed to enable the secure channel,
+				such as adding security group entries.
+					
+			Example - 
+				- Company Has Deploy his database instance in One Region It max capacity is like manage 25000 user
+				  Some user is only for read not write ,Here we have receive request from 4 different region all region
+				  send min 5000 request then if max request receive then server load increase then Server not handle 
+				  all request then server is in down time for solution to this
+					  
+				  We have create copy of database Instance in Any place then we have create Copy at all 4 region,
+				  We give name to this copy is read replica,then client 1st go to read replica copy then only who read the data they read 
+				  here & who write some data they go to main database instance with the help of read replica then traffic of main database 
+				  instance automatically decrease then it can work properly
+			
+			
+	How to Create RDS - 
+		- Service -> RDS -> create database
+		- CHoose database creation method
+			1. Standard create - Select if We have to change all parameter for this - Select this
+			2. Easy Create - Select if use by-default setting,No change any things
+		- Engine Option - Select Engine Type - Here MySQL,MariaDB is Available in Free tier - Select MySQL
+						- Select Version - Here Select version of MySQL
+		- Templates - Choose Template to meet your use case
+					- Kis environment k liye hum apna Database deploy kr rahe hai 
+						1. Production - For Production Environment
+						2. Dev/Test - For Devlopment or Testing purpose
+						3. Free Tier - For free tier In free tier only Single AZ available - Select this
+		- Settings
+					- DB Instance Identifier - Type Name for Database Instance
+					- Credential Settings- 
+							Master Username - At time of Access Provide user name those username provide here
+							Master password - Provide password
+		- DB Instance Size - Provide size of Instance
+							   - In free tier only t2.micro available then we select this
+		- Storage - 
+					- Storage Type - Select Storage Type 
+								1. General purpose - Min. Size is 20 Gb -Free Tier - select this 
+								2. Provisioned IOPS - Min. Size 100 Gb
+					- Allocated storage - 20 Gb in General Purpose -select 20
+					- Storage autoscaling
+						Enable storage autoscaling - Tick If Autoscaling enable for storage
+						Maximum storage threshold - Provide threshold size for autoscaling means if allocated storage full then automatically increase storage size upto mention here if we mention 1000 gb then Increase max 1000 gb
+		- Availability & durability
+			- It Define we have create Multi AZ or not
+		- Connectivity
+				- Virtual Private Cloud - Select VPC - After Database create can't change VPC Selection
+				- Additional connectivity configurations
+					- subnet group - select group
+					- publicly accessible - select yes or no - yes if anyone access outside the VPC or NO if only access through EC2 Instance
+					- VPC Security Group - Create New or Select Existing - For Port Allow 
+							Here we create New 
+							Give name 
+							Select Availability Zone
+							Database port - select port
+		- Database authentication
+				- Password Authentication
+				- Password and IAM database authentication
+				- Password and Kerberos authentication
+		- Additional configurations
+			Database Option - Here we have to add entry in Database
+				- Initial Database Name - Give name
+						- DB Parameter group - Select Default - If change require then do change in Parameter Group
+						- Option Group - Select Default - If change require then do change in option group
+				- Backup - 
+					- Enable Automatic backup - Tick if Automatic Backup require
+					- Backup retention period - select number of days that RDS should retain automatic backup for this instance
+						- Backup windows - Select the period you want to automated backup of database to be created by Amazon RDS
+				- Monitoring - Enable Enhance monitoring - Tick If require
+				- Log Export - Select log type to publish to Amazon cloudwatch logs
+						1. Error Log
+						2. General Log
+						3. Slow Query Log
+				- Maintenance 
+					- Enable auto minor version upgrade - select if upgrade require
+					- Maintenance windows - Select the period you want pending modification or Maintenance applied to database by Amazon RDS
+					- Deletion protection 
+						- Enable deletaion protection - Tick if Require	
+				- Create Database
+				
+		- After Create Database for access Database We have to Launch one Instance.
+		- At time of Launch Instance for security group we have to provide SSH Port allow 
+
+	- We have to access database then 1st create connection between EC2 Instance & Database
+	- For Connection We have to add security group of EC2 Instance Add into Database Server (Database Vale security group me EC2 Vala Security group add krna padega)
+	- With the help of this connection One Link Create Between Database server & EC2 Instance
+	- With the Help of Endpoint of Database Server we have access
+	
+For Security Group
+	- Goto Security Group in  EC2
+	- Select Security group of Database Server Security group 
+	- Goto Inbound rules -> Edit inbound rules
+	- Add rules ---- 
+			TYpes - Select MYSQL/Arora(Bcz We create My SQL Database server) 
+			Source - Select Security Group of EC2 Instance Created
+	- Save Rules
+	
+	- Connect Instance 
+		then Install Package mysql
+			Sudo su -
+			yum install mysql -y
+			mysql -h singleaz.cr91c9dmbard.ap-south-1.rds.amazonaws.com -u admin -p
+			Enter Password : Type Password Here
+			Now you are in MYSQL Server
+			
+			
+	mysql -h singleaz.cr91c9dmbard.ap-south-1.rds.amazonaws.com -u admin -p
+			 [         End point of Database Server           ]	[Master Username At time of Database Create Type Here]
+			 
+			
+			
+	
+	How to check backup
+	 - RDS -> Automated backups 
+	 - Earliest restorable time - It can backup Blank Database
+	 - Latest restorable time - Here provide Latest Backup Time
+	 
+	
+****************************************** Above is Single AZ ******************************************************
+
+
+
+********************************************* Read Replica *********************************************************
+ 
+ How to Create
+	- RDS -> Database -> Select Already Created Database for SingleAZ -> Action -> Create read replica
+	- Instance specifications - For Type Change then do this here
+			DB instance class - Select Type
+			Multi-AZ deployment - Yes or No - If Multi-AZ Deploy then Select Yes Otherwise No
+			Storage type - Select Storage Type
+	- Network & Security
+			Destination region - Select Region If Change Require
+			Destination DB subnet group - Select subnet group
+			Availability zone -Select AZ
+			VPC security groups - Select Security group if change require
+	- Encryption - Enable/Disable Encryption Key
+	- Settings -
+			Read replica source - Select source of Read Replica
+			DB instance identifier - Give name to read replica
+	- Database options
+			Database port - Select Database Port
+			IAM DB authentication - Enable/Disable Authentication
+	- Monitoring - Enable/Disable Monitoring
+	- Create read Replica
+	- After Create then it can show in Database of RDS
+	- Here we create Read Replica of Database Server Already Created
+	
+	- After create Read Replica then connect.
+	- Connect same as normal Single AZ Connect Shown Upper,Only change endpoint
+
+	- Connect Instance 
+		then Install Package mysql
+			Sudo su -
+			yum install mysql -y
+			mysql -h singleaz.cr91c9dmbard.ap-south-1.rds.amazonaws.com -u admin -p
+			Enter Password : Type Password Here
+			
+			show databases;   ---for show database
+			create database new		--- Create database with name new
+			
+			
+	- Here We have to perform only read option no any change or create Database here bcz its only use for read database
+	
+**************************************************** Multi AZ ******************************************************
+
+
+	How to Create RDS - 
+		- Service -> RDS -> create database
+		- CHoose database creation method
+			1. Standard create - Select if We have to change all parameter for this - Select this
+			2. Easy Create - Select if use by-default setting,No change any things
+		- Engine Option - Select Engine Type - Here MySQL,MariaDB is Available in Free tier - Select MySQL
+						- Select Version - Here Select version of MySQL
+		- Templates - Choose Template to meet your use case
+					- Kis environment k liye hum apna Database deploy kr rahe hai 
+						1. Production - For Production Environment - Select this for Multi AZ
+						2. Dev/Test - For Devlopment or Testing purpose - Select this for Multi AZ
+						3. Free Tier - For free tier In free tier only Single AZ available
+		- Settings
+					- DB Instance Identifier - Type Name for Database Instance
+					- Credential Settings- 
+							Master Username - At time of Access Provide user name those username provide here
+							Master password - Provide password
+		- DB Instance Size - Provide size of Instance
+							   - In free tier only t2.micro available then we select this
+		- Storage - 
+					- Storage Type - Select Storage Type 
+								1. General purpose - Min. Size is 20 Gb -Free Tier - select this 
+								2. Provisioned IOPS - Min. Size 100 Gb
+					- Allocated storage - 20 Gb in General Purpose -select 20
+					- Storage autoscaling
+						Enable storage autoscaling - Tick If Autoscaling enable for storage
+						Maximum storage threshold - Provide threshold size for autoscaling means if allocated storage full then automatically increase storage size upto mention here if we mention 1000 gb then Increase max 1000 gb
+		- Availability & durability -- Here we have to select Multi-AZ option
+			- Create a standby instance (recommended for production usage) - For Multi-AZ We have Select this - Here It Create Two Instance & Work on Single Instance If 1st instance Down then automatically 2nd instance working,2nd instance is Backup of 1st Instance
+			- Do not create a standby instance - For SingleAZ select this
+		- Connectivity
+				- Virtual Private Cloud - Select VPC - After Database create can't change VPC Selection
+				- Additional connectivity configurations
+					- subnet group - select group
+					- publicly accessible - select yes or no - yes if anyone access outside the VPC or NO if only access through EC2 Instance
+					- VPC Security Group - Create New or Select Exitsting - For Port Allow 
+							Here we create New 
+							Give name 
+							Database port - select port
+		- Database authentication
+				- Password Authentication
+				- Password and IAM database authentication
+				- Password and Kerberos authentication
+		- Additional configurations
+			Database Option - Here we have to add entry in Database
+				- Initial Database Name - Give name
+						- DB Parameter group - Select Default - If change require then do change in Parameter Group
+						- Option Group - Select Default - If change require then do change in option group
+				- Backup - 
+					- Enable Automatic backup - Tick if Automatic Backup require
+					- Backup retention period - select number of days that RDS should retain automatic backup for this instance
+						- Backup windows - Select the period you want to automated backup of database to be created by Amazon RDS
+				- Monitoring - Enable Enhance monitoring - Tick If require
+				- Log Export - Select log type to publish to Amazon cloudwatch logs
+						1. Error Log
+						2. General Log
+						3. Slow Query Log
+				- Maintenance 
+					- Enable auto minor version upgrade - select if upgrade require
+					- Maintenance windows - Select the period you want pending modification or Maintenance applied to database by Amazon RDS
+					- Deletion protection 
+						- Enable deletaion protection - Tick if Require	
+				- Create Database
+				
+		- After Create Database for access Database We have to Launch one Instance.
+		- At time of Launch Instance for security group we have to provide SSH Port allow 
+
+	- We have to access database then 1st create connection between EC2 Instance & Database
+	- For Connection We have to add security group of EC2 Instance Add into Database Server (Database Vale security group me EC2 Vala Security group add krna padega)
+	- With the help of this connection One Link Create Between Database server & EC2 Instance
+	- With the Help of Endpoint of Database Server we have access
+	
+For Security Group
+	- Goto Security Group in  EC2
+	- Select Security group of Database Server Security group 
+	- Goto Inbound rules -> Edit inbound rules
+	- Add rules ---- 
+			TYpes - Select MYSQL/Arora(Bcz We create My SQL Database server) 
+			Source - Select Security Group of EC2 Instance Created
+	- Save Rules
+	
+	- Connect Instance 
+		then Install Package mysql
+			Sudo su -
+			yum install mysql -y
+			mysql -h singleaz.cr91c9dmbard.ap-south-1.rds.amazonaws.com -u admin -p
+			Enter Password : Type Password Here
+			Now you are in MYSQL Server
+	
+	Type below cmd then it can ping to database at every 3 sec
+
+		while true;do host multiaz.cr91c9dmbard.ap-south-1.rds.amazonaws.com; sleep 3; done
+		
+	We have not directly Failover to database,Database failover at time when Max. load connect to this
+		We have reboot this
+		- Select database then action -> reboot -> Reboot With Failover? Tick -> Reboot
+		
+		After do this then ping change from main database to backup Database

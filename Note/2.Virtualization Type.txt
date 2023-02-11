@@ -1,0 +1,37 @@
+Virtualization Type: (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/virtualization_types.html)
+					It is a technique to create virtual Hardware.Implement with the help of hypervisor
+						1) Hardware Virtual Machine (HVM)
+						2) Para-Virtual (PV)
+	Hypervisor :- Hypervisor are virtual machine monitor(VMM) that enables numerous virtual operating systems to 
+	simultaneously run on a computer system.
+	- The main differences between PV and HVM AMIs are the way in which they boot and whether they can take advantage
+	of special hardware extensions (CPU, network, and storage) for better performance.
+	- For the best performance, we recommend that you use current generation instance types and HVM AMIs when you 
+	launch your instances.
+	- Every physical machine has a hypervisor running on it. A Xen hypervisor allows multiple instances to share a 
+	single hardware platform. A hardware on which a hypervisor is running one or more virtual machines is called a 
+	Host machine. Each virtual machine is called a Guest machine.
+	
+1) HVM :- 
+	- HVM AMIs are presented with a fully virtualized set of hardware and boot by executing the master boot record 
+	of the root block device of your image.
+	- This Virtualization type provides the ability to run an operating system directly on top of a virtual machine
+	without any modification, as if it were run on the bare-metal hardware.
+	- HVM guests can take advantage of hardware extensions that provide fast access to the underlying hardware on 
+	the host system.
+	- HVM AMIs are required to take advantage of enhanced networking and GPU processing. 
+	- In order to pass through instructions to specialized network and GPU devices, the OS needs to be able to have 
+	access to the native hardware platform; HVM Virtualization provides this access.
+	- hardware provides support to run independently for each OS.
+	- HVM AMIs support both Linux and Windows.
+2) PV :-
+	- PV AMIs boot with a special boot loader called PV-GRUB, which starts the boot cycle and then chain loads the 
+	kernel specified in the menu.lst file on your image.
+	- Paravirtual guests can run on host hardware that does not have explicit support for Virtualization, but they 
+	cannot take advantage of special hardware extensions such as enhanced networking or GPU processing. 
+	- Historically, PV guests had better performance than HVM guests in many cases, but because of enhancements in 
+	HVM Virtualization and the availability of PV drivers for HVM AMIs, this is no longer true.
+	- The ability of the guest kernel to communicate directly with the hypervisor results in greater performance 
+	levels than other Virtualization approaches but they cannot take advantage of hardware extensions such as 
+	enhanced networking,GPU etc.
+	- The guest OS in this case is aware that it is virtualized. Para-virtualized AMIs support only Linux.

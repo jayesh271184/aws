@@ -1,0 +1,161 @@
+Lambda (https://aws.amazon.com/lambda/)
+	   - AWS Lambda lets you run code without provisioning or managing servers. You pay only for the 
+	   	 compute time you consume.
+	   - AWS Lambda is an event-driven, serverless computing platform provided by Amazon as a part of 
+		 Amazon Web Services.
+	   - It is a computing service that runs code in response to events and automatically manages the 
+		 computing resources required by that code.
+	   - With Lambda, you can run code for virtually any type of application or backend service - all 
+	     with zero administration.
+	   - Just upload your code and Lambda takes care of everything required to run and scale your code 
+		 with high availability.
+	   - You can set up your code to automatically trigger from other AWS services or call it directly 
+	     from any web or mobile app.
+	   - It is Serverless Cloud Technique
+	   - 
+  Benefits
+   - No servers to manage - AWS Lambda automatically runs your code without requiring you to provision or 
+   manage servers. Just write the code and upload it to Lambda.
+   - Continuous scaling - AWS Lambda automatically scales your application by running code in response to each 
+   trigger.Your code runs in parallel and processes each trigger individually, scaling precisely with the size
+   of the workload.
+   - Subsecond metering - With AWS Lambda, you are charged for every 100ms your code executes and the number of
+   times your code is triggered. You pay only for the compute time you consume. 
+   - Consistent performance - With AWS Lambda, you can optimize your code execution time by choosing the right 
+   memory size for your function. You can also enable Provisioned Concurrency to keep your functions initialized 
+   and hyper-ready to respond within double digit milliseconds.
+   
+ How it Work
+	- Upload Your Code to AWS Lambda or Write code in Lambda's Code Editor
+	- Set up your code to trigger from other AWS service, HTTP endpoints, or in-app Activity
+	- Lambda runs your code only when triggered,using only the compute resources needed.
+	- Just pay for the compute time you use
+	
+	
+What is API(Application program Interface)
+	- In Simple form it is set of code
+	- It provide One link,with help of link webpage open
+	- It is a set of routines, protocols, and tools for building software applications
+	- Basically, an API specifies how software components should interact. Additionally, 
+	  APIs are used when programming graphical user interface (GUI) components.
+	- It is a computing interface which defines interactions between multiple software intermediaries
+	- Example - When you use an application on your mobile phone, the application connects to the Internet
+	and sends data to a server. ... That's where the waiter or API comes in. The waiter is the messenger – 
+	or API – that takes your request or order and tells the kitchen – the system – what to do.
+	
+How to Work - 
+	- Here We first Create Function,with the help of function we trigger API Gateway
+	
+How to Create Function
+	- Service -> Lambda -> Create Function - 
+	- For Function Create AWS Provide 3 Option
+		1. Author from scratch - Here Create Own Function,Developer Use this Bcz he has to Write full Coding.  - Select this
+							   - Site manage by Own.
+		2. Use a Blueprint - Here AWS ALready Create some Blueprint then we can use this,If any changes require then do this
+		3. Browse serverless app repository - Here create Some App repository ,If anyone created function in past & if use then we can use it.It is already stored here
+    - Basic information 
+		Function name - Give Function Name
+		Runtime - In which language we write function ,Here we provide Language
+		Permissions - Here we have to attach Execution one IAM Role Attach Here,Bcz they Give permission to other service Access
+			Here Provide Three Option
+			1. Create a new role with basic Lambda permissions  - Create New Role With Basic Lambda Function Permissions - Select this
+			2. Use an existing role - If Already Created then select here
+			3. Create a new role from AWS policy templates - Create New role from Existing AWS Policy then select this
+	- Create Function
+	- After Create Function ,In Function Code we show the coding of function
+	- In Function code coding if you have any changes require then do this here,Like Edit in Coding,New file create,find,view like this multiple function provide
+	- If any changes in Coding then save after changes.
+	- Here provide One feature for Multiple version --Here we stored multiple version of Program(Coding)
+	- Action -> Publish new version ----  Like this Version create of current coding,then if you changes any things in code then 2nd time 
+	  to create Publish new version then 2nd version also create & It can stored both the version
+	- If we create 1 version of Coding then if we try to edit on that version then we can't do this,for Edit the coding we
+	   goto Latest version how to go --- Upper side of Windows Before Action show this. and select Latest then edit on this & save new version
+	- Environment variables (0) - In Coding If any Variable assign then mention here
+	- Basic settings
+		Here provide Description of function
+		Runtime - Language konsi hai workload
+		Handler - Handler Information
+		Memory (MB) - How many Memory use mention here
+		Timeout - How many time to wait for open
+		Execution Role - Which role use here,if new role create then do this here 
+	- AWS X-Ray -- Here we have tracing where our Lambda function use ,which service use we have tracing here Tick if use
+	- VPC - If run of perticular VPC then mention here
+	- FIle System - If file System Attach then attach here
+	- Asynchronous invocation - If Execution in Exact time then we can provide Here,In Retry attempt - Provide how many time retrive for this
+
+	
+- After Done this Create one API Gateway It work like trigger
+
+How to Create API Gateway
+	Service -> API Gateway
+	- For API Create Here 4 DIfferent Type
+		1. HTTP API - Build low-latency and cost-effective REST APIs with built-in features such as OIDC and OAuth2, and native CORS support.
+		2. WebSocket API - Build a WebSocket API using persistent connections for real-time use cases such as chat applications or dashboards.
+		3. REST API - Develop a REST API where you gain complete control over the request and response along with API management capabilities.
+		4. REST API(Private) - Create a REST API that is only accessible from within a VPC.
+	- Select REST API -> Build
+		Choose the protocol - Select whether you would like to create a REST API or a WebSocket API.Select Anyone from Below
+			1. REST - Select this
+			2. WebSocket
+		Create new API - Here Provide 3 option
+			1. New API - If Create New API then Select this - Here we select this
+			2. Import from Swagger or Open API 3 - COde Import from Swagger or Open API 3(Swagger & Open API 3 It is platform where API Store)
+			3. Example API - For Example Use this 
+	   Select  New API then
+			API Name - Give name to API
+			Description - Description of API
+			Endpoint Type - Select from below 3
+				Regional - For Region wise work then select this - Currently we work on region then select This
+				Edge Optimized - For Perticuler Edge Location then selec this
+				Private - For Single Private VPC
+	  Create API
+	- After Create API We have to provide Method
+		In Method we have to define Which type of request receive & Where we have to divert request
+	 How to create Method	
+		Action -> Create Method
+			SHow multiple Option which type of request receive like
+			Here provide Multiple Option (ANY,GET,DELETE,HEAD,OPTION,PATCH,POST,PUT)
+			If any One show COntent Like Get then Select Get -- Select This
+			If any One Delete the content then select DELETE
+			Like this any option select
+		Select GET Request
+			Integration type - Select Integration Type here from below
+								 Lambda Function - Select If Lambda -- Here Select This
+								 HTTP  - Select If HTTP
+								 Mock - Select IF Any Different API
+								 AWS Service - Select If ANy AWS Service
+								 VPC Link - Select If any VPC Create then attach with Endpoint
+			Use Lambda Proxy integration - Tick Here
+			Lambda Region - Select Region In Which Region Create 
+			Lambda Function - Give name of Function Already Created in Lambda
+			Use Default Timeout - Tick
+		Save
+	After Done this Deploy API 
+	How to Deploy API
+		Action -> Deploy API
+			Deployment stage - Select New Stage
+			Stage Name - Give name to stage
+			Stage Description - Give Description of Stage
+			Deployment description - Give Deployment Description
+		Deploy
+	After Deploy One URL Link Receive ,Use this link to access Website created in Lambda
+	Like this we have to deploy our website
+	
+	After Done this if we have Enable throttling then DO this here any changes then do this here
+	Default Method Throttling
+				Rate (10000) request per second - 10000 request per second
+				Burst (5000) request - at time 5000 request
+	Web Application Firewall (WAF) - If any Firewall attach then attach here
+		 Web ACL - Select Already Created
+	
+	
+	For test in Lambda
+	 Test --> Event template - Select Event Template
+			  Event name - Give Name
+			  Create
+	
+For check Log then goto Cloudwatch service
+
+
+How to check log in Cloudwatch Service
+	Service -> Cloudwatch -> Logs -> Log Groups -> 

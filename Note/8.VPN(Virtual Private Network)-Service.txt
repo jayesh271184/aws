@@ -1,0 +1,89 @@
+VPN - Virtual Private Network (https://aws.amazon.com/vpn/#:~:text=AWS%20Virtual%20Private%20Network%20solutions,and%20the%20AWS%20global%20network.&text=AWS%20Site%2Dto%2DSite%20VPN%20creates%20encrypted%20tunnels%20between%20your,Clouds%20or%20AWS%20Transit%20Gateways.)
+
+		- AWS Virtual Private Network solutions establish secure connections between your on-premises networks, 
+		  remote offices, client devices, and the AWS global network. ... AWS Site-to-Site VPN creates encrypted
+		  tunnels between your network and your Amazon Virtual Private Clouds or AWS Transit Gateways.
+		- AWS Virtual Private Network solutions establish secure connections between your on-premises networks,
+		  remote offices, client devices, and the AWS global network.
+		- AWS VPN is comprised of two services: AWS Site-to-Site VPN and AWS Client VPN.
+		- Together, they deliver a highly-available, managed, and elastic cloud VPN solution to protect your 
+		  network traffic.
+		- AWS Site-to-Site VPN creates encrypted tunnels between your network and your Amazon Virtual Private 
+		  Clouds or AWS Transit Gateways.
+		- For managing remote access, AWS Client VPN connects your users to AWS or on-premises resources using 
+		  a free VPN software client.
+		- AWS Client VPN is a fully managed service that provides customers with the ability to securely access AWS
+		  and on-premises resources from any location using OpenVPN based clients. 
+		  
+Steps :-
+		First Create VPC
+		How To Create
+			VPC -> Lunch VPC Wisard -> VPC with a Single Public Subnet -> Select -> Fill Detail -> Create VPC
+		With the Help of Lunch VPC Wisard We have create Directly new VPC Without any help.
+		
+		Then Create One Private Subnet With Help of Subnet
+		VPC -> subnets -> Create Subnet -> Fill Detail As requirement 
+		Here We create One Private Subnet
+		Public Subnet Already Create at time of VPC Create.
+		
+		After Do this Lunch 1 Instance in Private Subnet 
+		
+		After Lunch Instance We can not access to that instance.Not Direct access to Private IP We have to create
+		VPN for this & then we can access this.
+		
+How to Create VPN
+		EC2 -> Lunch Instance -> AWS Marketplace -> select OpenVPN Access Server -> COnfigure as per requirement 
+			Here we have select Public subnet,Auto Assign public Ip Enable,in Security Group we have not any change 
+			Bcz It is already configure to this then Create Instance,Lunch Instance
+			
+Connect this Instance then Follow Below
+		At time of Connect Default user name for VPN is "openvpnas"
+		- In Aggrement -> yes
+		- Will this be the primary Access Server node? -> yes
+		- Please specify the network interface and IP address to be
+			used by the Admin Web UI:  -> 1
+			(1) all interfaces: 0.0.0.0
+			(2) eth0: 10.0.0.136
+		- Please specify the port number for the Admin Web UI. -> enter
+		- Please specify the TCP port number for the OpenVPN Daemon -> enter
+		- Should client traffic be routed by default through the VPN? -> enter
+		- Should client DNS traffic be routed by default through the VPN? -> enter
+		- Use local authentication via internal DB? -> enter
+		- Should private subnets be accessible to clients by default? -> enter
+		- Do you wish to login to the Admin UI as "openvpn"? -> enter
+		- Please specify your OpenVPN-AS license key (or leave blank to specify later) -> enter
+		Create Done
+		
+		After follow Above step show Below 2 url
+		During normal operation, OpenVPN AS can be accessed via these URLs:
+		Admin  UI: https://52.66.6.100:943/admin
+		Client UI: https://52.66.6.100:943/
+		
+		Above show 2 url 1 for admin ,2 for CLient
+		With the help of Admin Url We have create User, Admin not allow any person to use his login then he create ANother user with admin link
+		
+		Open Admin Link 
+		- Provide Username & Password
+		Username show at time of machine creation is openvpn
+		passwd we have create with help of sudo passwd openvpn cmd
+		username = openvpn
+		password = what we type
+		then Agree
+		go to user management -> user permission 	
+		Give user name Mark tick on admin,allow autologin
+		Go to more setting set password then save setting 
+		then Logout
+		
+		Then CLient Login provide link above
+		username = already create with help of admin
+		password = give passwe
+		Select Recommend software then download server
+		
+		After download Install software
+		Agree condition
+		then connect 
+		then open private Machine create with the help of ec2 at mobaxtream then open private machine
+		
+		with the help of openvpn we have access Private ip machine 
+		
+		we have select any private ip machine we have connect without help of public ip we have access private ip machine

@@ -1,0 +1,55 @@
+DynamoDB - DynamoDB is a fully managed NoSQL database service that provides fast and predictable 
+		   performance with seamless scalability.
+		 - With DynamoDB, you can create database tables that can store and retrieve any amount 
+		   of data and serve any level of request traffic.
+		 - Amazon DynamoDB is a key-value and document database that delivers single-digit 
+		   millisecond performance at any scale.
+		 - It's a fully managed, multiregion, multimaster, durable database with built-in
+      	   security, backup and restore, and in-memory caching for internet-scale applications. 
+		 - DynamoDB can handle more than 10 trillion requests per day and can support peaks of 
+		   more than 20 million requests per second.
+		 - NoSQL Database
+		 - Work Based on Key Value
+		 - Key all time same & Value May Be DIfferent
+		 - If We upload data then it has one key & We give to its value (Value may be different)
+		 - It is Mainly Use Developer,Directly Connect to API,All Client Connect With Web site & Change with the help of web site
+		 - Client Here Not Execute Any Command It can Directly use with the help of Key 
+		 - Here Data Access is Very Fast in Like millisecond
+		 - Here Is Searching is Very Fast,so Big company use this Bcz Any one can generate query then it can give responce at time
+
+How to Create Table
+	Service -> DynamoDB -> Create Table
+		- Create DynamoDB Table
+			Table Name - Give name to table
+			Primary Key - Here we give Partition Key Generate for table
+				Here we Type "Name" & "String" Select
+			If Multple Key Add then Tick in Add short Key
+		- Table Settings
+			Here if Use Default setting then use default setting & If Create Manually also Do this Here & Follow Following step.
+		- Secondary Indexes - If Create Secondary Key then Create Here
+		- Read/Write Capacity Mode - Here We select which type of Read/Write Capacity Select,
+									 By-Default 5 Value Provide in free-tier (5/second)
+		- Auto Scaling - Here we have to also done auto scaling feature
+					   - Here we have to Increase the capacity if Load increase or Utilization is High 
+				IAM Role - If IAM Role created then we can attach & Use it here
+		- Encryption At Rest - If we Encrypt the data & Store then we can do this
+			Here 3 Method for this	
+				Default - The key is owned by Amazon DynamoDB. You are not charged any fee for using these CMKs.
+				KMS - Customer managed CMK - Here Key created by Own & then upload Here
+				KMS - AWS managed CMK - Here key provide by AWS,With the help of this key we manage
+			Select any one of three for data Encryption
+			We select any one option above then we have access data then we have access through this key
+		- Created 
+
+	After do this Table Create we have to add data
+	
+How to add data
+		- Select Table -> Items -> Create Item
+			Add Data with help of "+" Sign & Insert & which you want insert select here
+			Like this we have add entry here
+
+	In DynamoDB We have very easy to filter or search data 
+	
+	Mainly Use APIS k Through
+	API is a set of code,set of program
+	With the help of API we can Communicate connection between to 2 service

@@ -1,0 +1,124 @@
+Auto Scaling :- 
+		- AWS Auto Scaling monitors your applications and automatically adjusts capacity to maintain steady, predictable 
+		performance at the lowest possible cost. 
+		- Using AWS Auto Scaling, it's easy to setup application scaling for multiple resources across multiple
+		services in minutes.
+		- It Provide feature Like If Load increase In Certain Threshold then Lunch new Instance Automatically
+		& If load Decrease in Certain Threshold then remove Instance.
+		- Create Condition For Load Increase load if we have only one system 
+			Like - load > 60% then lunch multiple instance
+				   Load < 40 % then remove all instance except one.
+		- In normal Case If we require 0ne machine but we have normally Lunch 2 machine at that time Waste of our Money 
+		We have to pay money for 2nd instance for solution to this we have to use Auto Scaling.
+		- We have to deploy Same configuration machine at that time here provide 2 feature
+			1. Launch Configuration - Here we have to provide which type of machine we have to create,Type of AMI,We have to run script then
+			all are here provide at time of creation.
+			2. Launch Template - same feature as above.
+		- Auto scaling group - Here we have provide group Initial size,Min. Instance,Max size,Provide Min & Max SIze of user  enter(Just provide Condition)
+		- 1st we have to create Launch Configuration then create auto scaling group.
+
+
+How to Configure Launch Configuration 
+		- EC2 -> Auto scaling -> Launch Configurations -> Create Launch configuration
+		- Step 1. - Choose AMI - Amazon Linux 2nd
+		- step 2. - Choose Instance Type - t2.micro
+		- step 3. - Configure details
+			Create Launch Configuration
+					- Name - Give name 
+					- Purchasing option - Tick request spot instance if spot instance creation - no tick
+					- IAM role - Select role if require - Select none
+					- Monitoring - Tick Enable CloudWatch detailed monitoring - Tick bcz We have to monitoring continuously if any issue then show 
+			Advance Details
+					- user data - Type Script here to install Httpd,enable service
+									#!bin/bash
+									yum install httpd -y
+									systemctl enable --now httpd
+									echo "Welcome to Machine" > /var/www/html/index.html/index
+		- Step 4. - Add Storage
+					- Storage related show here
+					- Next 
+		- step 5. - Configure Security Group
+					- configure security group
+					- Here add ssh & http(Access through internet that's why)
+		- step 6. - Review
+					- Launch Instance
+	After done Launch Configuration then create auto scaling group
+
+How to create Auto scaling group
+		- EC2 -> Auto scaling -> Auto scaling groups -> Create auto scaling group -> select Launch configuration & Select at last in page Created Launch Configuration
+		- Step 1. - Configure Auto Scaling group details
+			Create Auto Scaling Group
+					- Group name - Name to group
+					- Launch Configuration - SHow Select Launch Configuration
+					- Group size - Select group size - How many instance Working all time - here we have select 1 or 2 then all time 1 or 2 instance working - select 1
+					- Network - Select VPC
+					- Subnet - Here in which subnet we have to launch machine,Here we select multiple instance - select 1a & 1b (In 1c t2.micro not support)
+			Advanced Details
+					- Load Balancing - Select Load Balancer
+								Target groups - Select target group
+					- Health Check Grace Period - After instance in working condition then check health - 60 (then After Instance up then after 60 second check health of instance)
+					- Monitoring - Tick Enable CloudWatch detailed monitoring then it can monitoring every 1 min. if we not select then monitoring every 5 min - Tick here
+					- Instance Protection - Here we have not select any things after machine create we done
+					- Service-Linked Role - Here we have not select any things after machine create we done
+		- Step 2. - Configure scaling policies - You can optionally add scaling policies if you want to adjust the size (number of instances) of your group automatically.
+					- select anyone option from below
+						1. Keep this group at its initial size - Every Time 1 Instance is in Working Condition if any issue in 1 instance then automatically terminate that 
+						instance & Create new Instance with same configuration.
+						2. Use scaling policies to adjust the capacity of this group - Here we provide Min & Max size of the instance create in Group
+							Select scale between ( 1 ) and ( 3 ) instance (If select 3 then 3 instance Launch at time)
+							Name: Name to scale
+							Metric type: Here we have select Type on which type we have create condition
+							Target value: Here Provide Threshold value - 60 (If traffic Above 60% then New Instance Launch & If traffic Below 60% then Remove Instance)
+							Instances need: Scaling krne k baad instance up ane me kitna time lagega wo batana hai
+		- Step 3. - Configure Notifications
+					- Provide SMS or Email on confirmation of Instance Launch or Instance Remove with the help sns service
+		- Step 4. - Configure Tags
+					- Give name to group
+		- Step 5. - Review
+					Next
+	
+	After Done this One Instance Launch in EC2 Automatically
+
+	Default Cooldown - Auto scaling Ek Activity done krne k baad dusri activity start krne k bich ka time
+					 - If One Instance Terminate any issue then after new instance launch between time (Time between 2 Instance Launch)
+					 - If we terminate one instance then automatically new instance created
+				 
+Health check Type - Check select Auto scaling group -> edit  -> Select Health Check Type any one below 
+		- Two Type 
+			1. EC2 - check Health Hardware if any issue in Hardware related then show unhealthy & Launch new Instance 
+			2. ELB - Check Health service related if any issue in Service related then show Unhealthy & Launch new instance
+			
+ Step Type
+		- Here we 1st Create Load Balancer
+		- Almost same as above
+		- we have change at step 2
+		- In step 2 we have select max instance (In Max. instance If our traffic increase then automatically new instance Launch)
+				Ex. If Max = 3 then If Load increase above threshold level then another ins  launch automatically.It can create Max.  3 Instance.
+									If load Decrease below threshold level then terminate then instance.
+			Scaling Policy -
+				Name: Name to scale
+				Metric type: Here we have select Type on which type we have create condition
+				Target value: Here Provide Threshold value - 60 (If traffic Above 60% then New Instance Launch & If traffic Below 60% then Remove Instance)
+				Instances need: Scaling krne k baad instance up ane me kitna time lagega wo batana hai
+		- Only Above step change rest same as above process
+ How to Increase Load
+		- With the help of top command we show traffic.
+		- for Increase traffic " yes > /dev/null &" use this cmd for traffic increase copy paste multiple time in single comd
+		
+*************************How to Launch New Instance in Specific Time period****************************************
+	Old
+		- Select Auto Scaling group created -> Schedule actions -> Create Schedule instance
+			Name - Give Name
+			Min - Provide Min. Instance Like 1 then All time Only one Instance Launch
+			Max - Provide Max. Instance Like 3 then If trafic Increase then Max 3 Instance Launch
+			Desired Capacity - Provide Desired Capacity Like 1 or 2 then all time 1 0r 2 instance work continuously
+			Recurrence - Select AnyOne Option  from this Once,Every 5 Min ,Every 10 Min,Every Day,Every Week (Launch Instance Only Once or Every 5 or 1o Min or Every Day etc.. Mention Here)
+			Start time - The first time this scheduled action will run
+	New
+		- Select Auto scaling group created -> Automatic scaling -> At bottom of page Select create scheduled action
+			Name - Give Name
+			Min - Provide Min. Instance Like 1 then All time Only one Instance Launch
+			Max - Provide Max. Instance Like 3 then If trafic Increase then Max 3 Instance Launch
+			Desired Capacity - Provide Desired Capacity Like 1 or 2 then all time 1 0r 2 instance work continuously
+			Recurrence - Select AnyOne Option  from this Once,Every 5 Min ,Every 10 Min,Every Day,Every Week (Launch Instance Only Once or Every 5 or 1o Min or Every Day etc.. Mention Here)
+			Start time - The first time this scheduled action will run

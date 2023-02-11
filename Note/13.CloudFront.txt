@@ -1,0 +1,127 @@
+CloudFront (https://aws.amazon.com/cloudfront/?sc_channel=PS&sc_campaign=acquisition_IN&sc_publisher=google&sc_medium=cloudfront_b&sc_content=cdn_e&sc_detail=aws%20cdn&sc_category=cloudfront&sc_segment=111916787101&sc_matchtype=e&sc_country=IN&s_kwcid=AL!4422!3!111916787101!e!!g!!aws%20cdn&ef_id=CjwKCAjwxev3BRBBEiwAiB_PWIFCgxPG2uMB0eo4vdUCBM6BOwC19x9TPYXMhS90Fgf_MQGWa5E7HhoCS9sQAvD_BwE:G:s&s_kwcid=AL!4422!3!111916787101!e!!g!!aws%20cdn)
+			- CloudFront delivers your content through a worldwide network of data centers called edge locations.
+			  When a user requests content that you're serving with CloudFront, the user is routed to the edge location
+	   		  that provides the lowest latency (time delay), so that content is delivered with the best possible 
+			  performance.
+			- Amazon CloudFront is a fast content delivery network (CDN) service that securely delivers data, videos, 
+			  applications,and APIs to customers globally with low latency, high transfer speeds, all within a 
+			  developer-friendly environment.
+			- User can 1st time access then it can go to Original server then its data stored in Edge server then 2nd time any user access
+			  then he can access directly through edge server, Bcz 2nd time edge server store Original Server Data 
+			  
+
+CDN
+			- CDN(Content Delivery Network) is Solution of CloudFront
+			- CDN - How To Deliver the Content to Client
+			- How to Deliver Data to client with High Performance & High Speed
+			- CDN is a globally distributed set of servers that caches content such as videos
+			- CDN is a system of distributed servers (network) that deliver pages and other web content to a user,
+			  based on the geographic locations of the user, the origin of the webpage and the content delivery server
+			- Here We have Deploy Edge Server(Cache) at Multiple Location,then user can access direct with the help of this
+			- Edge Server - Its create copy of Web page -- Means create Multiple copy of web page then client can access easily
+			- 
+			
+How to Create
+	- First Create EC2 Instance for Web SIte Deployment then create Load Balancer for DNS Name
+	- Here we Attach Load Balancer with CloudFront,With the help of Load Balancer we have create CloudFront
+	
+	
+Here we have to create Distribution(Edge Server)
+	Service -> CloudFront -> Create Distribution
+	- Here show 2 Delivery Method
+		1. Web - In Web all data related to Web Application,Web site Deploy all are done with help of this
+		2. RTMP - If use Any Adobe Flash media where RTMP protocol use where we have to use this
+	- Here select Web -> get started
+	- Origin Setting - Here we have to mention where is our content save (Mtlb Hamara data or website kaha par launch hai wo batana hai)
+		Origin Domain Name - Here we have to select source file,means where we create data or website - select Load balancer allready created 
+		Origin Path - Here we have provide if only if we our data not stored in home directory -- Blank
+		Origin ID - Give Name or Identity -- Its call Tag one Type
+		Minimum Origin SSL Protocol - Choose the minimum SSL protocol for CloudFront to use when it establishes an HTTPS connection to your
+				origin. We recommend that you select the latest protocol that your server supports.
+				Here is for Certification term, -- Select TLsv1
+		Origin Protocol Policy - Select whether you want CloudFront to connect to your origin using only HTTP, only HTTPS, 
+				or to connect by matching the protocol used by the viewer. For example, if you select Match Viewer for the 
+				Origin Protocol Policy, and if the viewer connects to CloudFront using HTTPS, CloudFront will connect to your 
+				origin using HTTPS
+				- Here if We Provide Http or https then it can accept only http or https request
+		Origin Connection Attempts - How many time to try to Send request for Attempts
+		Origin Connection Timeout - Provide Timeout time
+		Origin Response Timeout - Provide responce Timeout - If not responce in provide time then try other time
+		Origin Keep-alive Timeout - How many time maintain Ideal Connection 
+		HTTP Port - SHow port number of HTTP
+		HTTPS Port - SHow port number of HTTPS
+		Origin Custom Headers - All custom header keys and values you specify here will be included in every request to this origin. 
+			If a header was already supplied in the client request, it is overridden.
+			
+	- Default Cache Behavior Settings
+		Path Pattern - By Default Fix
+		Viewer Protocol Policy - Client how to enter in CloudFront
+			HTTP and HTTPS - With HTTP and HTTPS
+			Redirect HTTP to HTTPS - Divert HTTP to HTTPS
+			HTTPS Only - With HTTPS
+		Allowed HTTP Methods - Select the list of HTTP methods you want to allow for this cache behavior
+							 - If Deploy API at that time use major
+			GET, HEAD
+			GET, HEAD, OPTIONS
+			GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE
+
+		Field-level Encryption Config - If Encryption Enable required then we have to do this here ,first we have to create ket for this & then use here
+		Cached HTTP Methods
+		Cache Based on Selected Request Headers
+		Whitelist Headers
+		Object Caching - Here we provide Cashe Detail
+			Use Origin Cache Headers - By Default Setting then select this
+			Customize - If Customize then use this & Fill All Below Option
+				Minimum TTL - Provide Min Value
+				Maximum TTL - Provide Max Value
+				Default TTL - 
+		Forward Cookies - Default Select
+		Query String Forwarding and Caching - Default Select
+		Smooth Streaming - If Streaming then Select Yes so User can View Data Easily
+		Restrict Viewer Access(Use Signed URLs or Signed Cookies) - If use S3 Bucket & Block User access ,Means User Access block at origin & Only Access through CloudFront then select yes
+		Compress Objects Automatically - If compress content then yes
+		Lambda Function Associations - 
+	- Distribution Settings -  Here we have to Provide Where we have to Deploy 
+		Price Class - Here we have provide Location where we deploy
+		AWS WAF Web ACL - Here we provide One type of Firewall for Who can access or who not access(If you want to use AWS WAF to allow or block requests based on criteria that you specify, choose the web ACL to associate with this distribution)
+		Alternate Domain Names - If alternate domain name available then mention here if not then leave it
+		SSL Certificate - Select Certificate
+			Default CloudFront Certificate (*.cloudfront.net) - Select this we provide default name here
+			Custom SSL Certificate (example.com) - Select if Customize
+		Supported HTTP Versions - Select Supported Version of HTTPS
+		Default Root Object - Provide path for where our root object 
+		Logging - Select yes or No - If Yes then provide Bucket for Log & Log Prefix
+			Bucket for Log
+			Log Prefix
+		Enable IPv6 - Tick If Enable IPv6
+		Distribution State - Enable/Disable then Mention here
+	- Create Distribution
+	
+How to Create Custom Error Page
+	- Select Distribution - > Error Pages -> Create Custom Error Response
+	
+How to create Restriction
+	Restriction - Here we have to specify which country is in Blacklist or Whitelist
+	What country can access this site & What can not access site
+	
+	- Select Distribution Already Created - > Restrictions -> Select -> edit
+		Enable Geo-Restriction - Select Yes if Create or No It not Create
+		Restriction Type - Select Any One Operation from below 
+			Whitelist - If Allow then Select this			
+			Blacklist - If Disallow then Select this
+		Countries - Here Add Countries for what Countries add in Whitelist/Blacklist
+			
+
+How to Access 
+	After Creation of Distribution It can Generate one Domain Name
+	With the help fo this Domain Name we can access Web site(Data)
+	
+
+After Create Distribution we have to analysis multiple in "Reports & Analystics"
+	Monitoring
+	Alarm
+	Usage
+	Viewer - Kiske THrough access Kiya hai wo show kr dega,Location,Kiske through sab kuch show kr dega
+	
+How TO Create Key
+	Service -> CloudFront -> Security -> Public Key -> Add public Key

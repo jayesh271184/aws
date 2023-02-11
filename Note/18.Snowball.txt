@@ -1,0 +1,53 @@
+SnowBall/AWS Snow Family 
+	- Service Use for Data Migration
+		On Premises to AWS
+		AWS to On Premises
+	- The AWS Snowball service uses physical storage devices to transfer large amounts of data between Amazon Simple 
+	  Storage Service (Amazon S3) and your onsite data storage location at faster-than-internet speeds.
+	- Snowball provides powerful interfaces that you can use to create jobs, track data, and track the status of your 
+	  jobs through to completion.
+	- Snowball is a petabyte-scale data transport solution that uses secure appliances to transfer large amounts 
+	  of data into and out of the AWS cloud. Using Snowball addresses common challenges with large-scale data 
+	  transfers including high network costs, long transfer times, and security concerns 
+	- AWS Snowball, a part of the AWS Snow Family, is a data migration and edge computing device that comes in two options
+	- Snowball Edge Storage Optimized devices provide both block storage and Amazon S3-compatible object storage, and 40 vCPUs.
+	- They are well suited for local storage and large scale-data transfer.
+	- Snowball supports specific Amazon EC2 instance types and AWS Lambda functions, so you can develop and test in the AWS Cloud,
+      then deploy applications on devices in remote locations to collect, pre-process, and ship the data to AWS.
+	- Common use cases include data migration, data transport, image collation, IoT sensor stream capture, and machine learning.
+	- AWS Snowball, a part of the AWS Snow Family, is an edge computing, data migration, and edge storage device that comes in two options. 
+	- Snowball Edge Storage Optimized devices provide both block storage and Amazon S3-compatible object storage, and 40 vCPUs.
+	- They are well suited for local storage and large scale-data transfer. 
+	- Snowball Edge Compute Optimized devices provide 52 vCPUs, block and object storage, and an optional GPU for use cases like advanced
+  	  machine learning and full motion video analysis in disconnected environments.
+
+AWS Snowball with the Snowball device has the following features:
+
+	- 80 TB and 50 TB models are available in US Regions; 50 TB model available in all other AWS Regions.
+    - Enforced encryption protects your data at rest and in physical transit.
+    - There's no need to buy or maintain your own hardware devices.
+    - You can manage your jobs through the AWS Snowball Management Console or programmatically with the job management API.
+    - You can perform local data transfers between your on-premises data center and a Snowball. You can do these transfers 
+	through the Snowball client, a standalone downloadable client. Or you can transfer programmatically using Amazon S3 REST 
+	API calls with the downloadable Amazon S3 Adapter for Snowball. For more information, see Transferring Data with a Snowball.
+    - The Snowball is its own shipping container, and its E Ink display changes to show your shipping label when the Snowball is 
+	ready to ship. For more information, see Shipping Considerations for AWS Snowball.
+	
+	
+******** 3 Type of Snowball Device
+	1. SnowBall - The AWS Snowball service uses physical storage devices to transfer large amounts of data between Amazon S3 
+	   and your onsite data storage location at faster-than-internet speeds.Data Size in PB
+	2. Snowball Edge - Device same as Snowball Device Here Extra feature provide Compute Power,Provide some RAM,Extra CPU then we can
+		use same like Server. Data Size in PB
+	3. Snow Mobile - EXA-Byte Scale Data Transfer.Device Like Truck Data size in EB then use this. 
+	
+******* For Use of SnowBall Device We have to Fill Form in AWS Site
+	How to Fill Form
+	- Service -> AWS Snow Family -> Create Job -> 
+	 Select Country
+	 Select which type of job do you need -- Select Any one from below 3 as per Job
+		1. Import from Amazon S3 - Data is On Premises to Import from S3 then select this
+		2. Export from Amazon S3 - Data on S3 & Export to On Premises then select this
+		3. Local Storage Only	 - Perform local Compute and storage workload then select this
+	 Next
+	 Fill Necessary Requirement

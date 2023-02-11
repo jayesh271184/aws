@@ -1,0 +1,127 @@
+ELB - Elastic Load Balancer
+		- It can handle the varying load of your application traffic in a single Availability Zone or across multiple 
+		Availability Zones.
+		- ELB automatically distributes incoming application traffic across multiple targets, such as Amazon EC2 instances,
+		containers, IP addresses, and Lambda functions.
+		- Here We have to Create First Load Balancer(ELB DNS),In VPC 3 subnet so we can not perfectly identify to in which subnet we have create instance
+		so it cat difficult for us. For Solution to this we have to Create group of Multiple instance.
+		
+		Target group - It is called as a collection of Multiple Instance.
+					 - In Target Group We have also use Our on Premises Machine.
+		
+		- Our Client come from Internet then Connect to ELB then Directly connect to Target group ,In Target group one by one
+		request asign to one by one instance (Like if we have 3 instance then 1st request to 1st machine 2nd -> 2nd Machine
+		3rd -> 3rd machine again 4th request -> 1st Machine) this type work.
+		
+		Like this AWS Load Balancer Work.
+	- We have to Create Security group Bcz for Enter in ELB Otherwise Anyone can use it.
+		Like security group
+			- http
+			- https
+
+How to Work ELB
+	A load balancer accepts incoming traffic from clients and routes requests to its registered targets (such as EC2 
+	instances) in one or more Availability Zones. The load balancer also monitors the health of its registered targets
+	and ensures that it routes traffic only to healthy targets 
+
+Type of Security Group
+ 1. Application Load Balancer -(https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html)
+		- Maximum We have use This type load balancer.
+		- Works on Application Layer of OSI model
+		- Speed is slower in Comparison to other type of Load balancer.
+		- Protocol work - HTTP/HTTPS
+		- A load balancer serves as the single point of contact for clients.
+		- The load balancer distributes incoming application traffic across multiple targets, 
+		  such as EC2 instances, in multiple Availability Zones. 
+		- This increases the availability of your application. You add one or more listeners to your load balancer.
+		- Choose an Application Load Balancer when you need a flexible feature set for your web applications with HTTP and HTTPS traffic
+		
+ 2. Network Load Balancer - (https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html)
+		- Works on Transport Layer of OSI model.
+		- Working is faster in comparison to Application load Balancer.
+		- Protocol work - TCP/UDP
+		- Choose a Network Load Balancer when you need ultra-high performance, TLS offloading at scale, centralized certificate deployment,
+		support for UDP, and static IP addresses for your application
+		- It can handle millions of requests per second. After the load balancer receives a connection request, it selects a target from the
+		target group for the default rule
+		- TCP - For TCP traffic, the load balancer selects a target using a flow hash algorithm based on the protocol, source IP address, 
+				source port, destination IP address, destination port, and TCP sequence number. 
+			  - The TCP connections from a client have different source ports and sequence numbers, and can be routed to different targets
+			  - Each individual TCP connection is routed to a single target for the life of the connection.
+		- UDP - the load balancer selects a target using a flow hash algorithm based on the protocol, source IP address, source port,
+				destination IP address, and destination port.
+			  - A UDP flow has the same source and destination, so it is consistently routed to a single target throughout its lifetime. 
+			  - Different UDP flows have different source IP addresses and ports, so they can be routed to different targets
+			  
+
+ 3. Class Load Balancer -
+		- Choose a Classic Load Balancer when you have an existing application running in the EC2-Classic network.
+		- It can derive from above two type load balancer.
+		- Protocol work HTTP/HTTPS/TCP/UDP
+		- A load balancer distributes incoming application traffic across multiple EC2 instances in multiple Availability Zones.
+		- This increases the fault tolerance of your applications. 
+		- Elastic Load Balancing detects unhealthy instances and routes traffic only to healthy instances.
+		-  You can add and remove instances from your load balancer as your needs change, without disrupting the overall flow of 
+		requests to your application.
+		
+		
+Listener - Our Request Divert at which
+		 - If request Receive so where it to go Like If Http Request Receive then go to http and if https request receive then go to http
+			in Http -  it is unsecure ,any one access directly.
+			   https - it is secure,Certificate attach here,so no any one access directly.
+			   
+
+Example -
+ We have to Create 3 Instance
+	At time of Instance Create use cmd at boot time process to Install, start,enable http port then type something in /var/www/html/index.html/index
+	then http port allow in security group.
+	After Create Instance Create Load Balancer.
+	
+How to Create Load Balancer
+	EC2 -> Load Balancers -> Create load Balancer
+	Select Load Balancer Type 
+		1. Application Load Balancer - Normally we have use this.
+		2. Network Load Balancer
+		3. Classic Load Balancer
+	Choose any one of above we have select Application Load Balancer.
+	Step 1:- Configure Load Balance
+				- Name - Give name
+				- Scheme - Select any one below
+							- internet-facing - It is use in live case,Use with help of internet(Isko hme internet k through work krna hai to ise use kr sakte hai)
+							- internal - Use in Private network Only
+				- Ip address type - ipv4 or dualstack (ipv4 only ipv4 & Dualstak = ipv4+v6)
+				- Listener - select which type of traffic allow http/https.
+				- Availability Zones - Select availability zone for access to that zone,Here we have select that zone who have to attach Load Balance.
+				- Add Tags
+	Step 2:- Configure Security Settings -show configuration setting.
+	Step 3:- Configure Security Groups-
+				- Create Security Group
+				- Allow http/https 
+				- Give name to group
+	step 4:- Configure Routing - Kis kis Target per traffic ayega wo batana hai
+			 Target group - Select If any group create then show this group otherwise select New target group.
+			 Name - Give name 
+			 Target Type -  Instance - Select if Use EC2 Instance
+							IP - Select if you on-premises machine
+							Lambda function -
+			 Health checks - Check Health of server if any hardware or softwere issue found then show.
+						   - It can check if server is unhealthy then not send request to that server 
+			 Advanced Health check setting - 
+					Healthy threshold - How many time to ping the server to check healthy status (If we type 2 then machine ping server 2 time if successfully receive ping responce then its call Healthy)
+					Unhealthy threshold - How many time to server not responce to ping (if we type 2 then if we ping machine 2 time but not responce then it receive msg unhealthy)
+					Timeout - After ping how much time wait for it (Ping karne k baad kitne time tak wait krege responce ka)
+					Interval - Interval Between 1st & 2nd Ping
+					Success codes - For Appache(http) is 200 ,By default fix
+	step 5:- Register Targets - Add instance for Load balancer for create 
+	step 6:- Review
+	Create
+	
+How to use 
+	After Create Load Balancer generate DNS Name
+	With the help of DNS Name we have access
+	Go to target group for check Health Condition of Machine
+	
+If any request receive after few time then where to go (Ek Request ayi hai wapas se wo chala gaya after some time fir se wo user request kr raha 
+hai to wo konsi machine pr jani chahiye )
+	target group -> Description -> Attributes -> edit attributes -> Stickiness tick enable -> select duration
+	Maximum we have select 7 days

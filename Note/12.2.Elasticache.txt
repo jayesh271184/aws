@@ -1,0 +1,26 @@
+Elasticache	- Amazon ElastiCache works as an in-memory data store and cache to support the most demanding applications
+              requiring sub-millisecond response times. 
+			- By utilizing an end-to-end optimized stack running on customer dedicated nodes, Amazon ElastiCache 
+			  provides secure, blazing fast performance.
+			- Amazon ElastiCache is a fully managed in-memory data store and cache service by Amazon Web Services.
+			- The service improves the performance of web applications by retrieving information from managed in-memory 
+			  caches, instead of relying entirely on slower disk-based databases.
+			- Build data-intensive apps or boost the performance of your existing databases by retrieving data from 
+			  high throughput and low latency in-memory data stores.
+
+	- Cache - If User can search site first time then it can go to ISP & Search then retrive data & show site,
+			  After search site browser store link or data for this site then 2nd time open this site then it cannot goto
+			  ISP but last time store link or Data use this & retrive data its call cache
+			- Here we create cache for Database
+			- Here 2 Engine Available for this
+				1. memcached
+				2. redis
+			- If multiple Request receive from Different Different Country at that time traffic maybe increase or some of the
+			  user has Latency increase so it has many issue for access website Like load increase or failover chances is more 
+			  for solution we have to use Elasticache
+			- For Solution this we have to create Engine memcached or redis (Elasticache) then 1st time request receive then go 
+			  to Main site & store link or data into Elasticache engine(memcached or redis) then 2nd request then request directly
+			  go to the Elasticache engine & retrive data not go to main server so,Load decrease into main server & failover chances
+			  reduce
+			- 1. memcached - It is inpersistent - After sometime data remove
+			  2. redis - It is persistent - Data may not remover after sometime

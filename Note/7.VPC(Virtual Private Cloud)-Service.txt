@@ -1,0 +1,190 @@
+VPC- Virtual Private Cloud (https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html)
+		- Amazon Virtual Private Cloud (Amazon VPC) enables you to launch AWS resources into a virtual network that 
+		you've defined. 
+		- This virtual network closely resembles a traditional network that you'd operate in your own data center,
+		with the benefits of using the scalable infrastructure of AWS.
+		- With the help VPC We have Provide security with one level up.
+		- First We have to create VPC, In VPC We create Multiple Subnet,In single subnet we have Lunch multiple instance
+		In Single VPC Multiple instance Created in Different subnet are by default connected.
+		- If Different VPC try to connect then it can require Public Ip to access VPC.
+		
+Virtual private cloud (VPC) — A virtual network dedicated to your AWS account.
+
+Subnet — A range of IP addresses in your VPC.
+
+Route table — A set of rules, called routes, that are used to determine where network traffic is directed.
+
+Internet gateway — A gateway that you attach to your VPC to enable communication between resources in your VPC 
+				   and the internet.
+
+VPC endpoint — Enables you to privately connect your VPC to supported AWS services and VPC endpoint services powered
+			   by PrivateLink without requiring an internet gateway, NAT device, VPN connection, or AWS Direct Connect
+			   connection.Instances in your VPC do not require public IP addresses to communicate with resources in
+			   the service. Traffic between your VPC and the other service does not leave the Amazon network.				   
+				   
+		Ex. If I Create 1 VPC in Single VPC I Create 2 Subnet 
+			1. public subnet
+			2. private subnet
+		We proivde public & Private ip to public subnet
+		then we Lunch instance in both subnet then assign public ip to public subnet and private ip to private subnet.
+		If any machine has access to our machine then first enter with help of public ip. If user require to access Private subnet then
+		it can possible with the help of public subnet,first user enter public if with the help of public ip then go to the private subnet
+		with help of private ip in short user -> public ip -> private ip (User enter private ip with help of public ip) 
+		Like this type we have to create Security level extra at VPC.
+		
+		We have to enter the VPC with help of Gateway
+		
+		Example - Here We create One VPC in Region Any one can Enter in VPC with the help of gateway here we call AWS IGW
+		In VPC We create 2 subnet 1. public subnet 2. private subnet . In public subnet we give public iP & Private ip by 
+		default Allocated & In Private subnet by default Private ip already assing we not assign public ip to this with the 
+		help of ip any one can access.
+		
+		If any user access to VPC then 1st enter the region with help of "AWS IGW" after enter region then enter to vpc
+		then also require Internal IGW with the help of IGW enter the vpc then if user provide correct ip then it can enter to machine
+		then user enter public ip,Currently user is in public subnet lunch instance then if user go to private subnet with help
+		of private ip.
+		If user enter the public subnet then user can enter private subnet if user know id password of private subnet.
+		In Private IP has not internet bcz it has not require to connection,but if user change any data in private subnet
+		but in private subnet no internet access so, with the help of "NAT gateway" connection create.NAT Gateway provide
+		internet connection to private subnet
+		
+		NAT Gateway - NAT Gateway Mount at that place where Internet access available.
+					- NAT Gateway ki entry krni hai Private subnet k routing table me(Jisko Internet ka access dena hai vaha pe entry krni hai)
+		In our scenario Internet access available AT  public iP Then NAT Gateway mount at public subnet 
+		
+		Both Internal Subnet by default connected with help of private Ip
+		
+		In Routing table we have to provide direction for going to one point to another point.
+		
+How to use VPC
+		We have to create Multiple Parameter for run this 
+		1. Create VPC
+		2. Create Multiple Subnet
+		3. Lunch Instances in Different Subnet
+		4. 
+How to Create VPC
+	VPC -> Your VPCs -> Create VPC
+		Give Name to Name tag
+		Ipv4 CIDR Block - Here we provide Ipv4 full block for multiple Machine Deploy at time of Ip Assign,We select randomly Ip Block
+		IPV6 CIDR Block - Here choose option if provide ip address
+		Tenancy - not select
+		Create VPC
+		
+		Here We create Private Network
+		
+How to Create Subnet
+	VPC -> subnets -> create subnet
+		Name tag - Give name to subnet
+		VPC - Select VPC in which VPC you create subnet
+		Availability Zone - Select Zone for which zone you have to create VPC,Here we have to use different zone for create Multiple Subnet create,Bcz If any issue at any zone then you can work continue
+		VPC CIDRs 
+		IPv4 CIDR Block - Here provide Ipv4 block is a part if VPC CIDRs Block(Means Subnet of VPC CIDRs (Like If VPC CIDR is 10.0.0.0/16 then Ipv4 cidr 10.0.1.0/24))
+		Create
+
+	Like this we have to create Multiple subnet in single VPC
+	
+Lunch Instances
+	Here We have to Lunch Instances
+		First We have to Lunch Instance with help of Public Ip
+		Second we have to launch Instance with help of Private Ip Not proivde Public Ip.
+		
+		
+	After Lunch instance If we try to connect But not possible due to we have to create Internet gateway 
+ 
+How to Create Internet Gateway
+	VPC -> Internet Gateways -> Create Internet Gateway
+	Give name to Internet Gateway
+	Create
+	
+	- After Create Gateway We have to attach it to VPC
+	How to Attach
+	 Select Gateway -> Action -> Attach VPC -> Select VPC -> Click Attach Internet Gateway
+	 
+ After Create Internet Gateway We have to Create Routing Table & Entry In Table.
+ 
+How to Create Routing Table - At time of Access we have to require Internet then we have to provide path with help of this then we have to access Machine(Instance)
+	VPC -> Route Tables -> Create Route Table
+	Name tag - Give name
+	VPC - Select VPC
+	Create
+	
+ Here We have Create Multiple Route Table as per requirement	
+ After Create Route Table We have to Define in Which Ip you go to Different Ip (Konsi Ip K Upper aap kiske Through Aap Jaoge)
+
+ Select Route Table then Associate subnet	
+	Select Route Table -> subnet Associations -> Edit -> Select jiske sath attach krna hai wo select krna hai
+	Here we have to select Public for Public & Private for Private
+	
+	After Associate then go to routes -> edit route
+	Here Provide Ip Address & Target for this
+		Here we proivde 0.0.0.0/0 target myIGV(Created Gateway k through )
+		Save Route
+	
+		After Do this We have to try to connect instance then we have to connect Our Machine
+			After IGW Create & ROute table create & Give path then we have Connect Our Machine
+
+
+ After we have to connect machine we have to connect Private Ip with the help of Public key (Show 2nd Video 100602020)
+
+In Private Ip Machine We have to Access Internet THen We have to Assign NAT Gateway,With the help of NAT Gateway we have Provide Internet to Private Ip
+
+
+How to Configure NAT Gateway (Network Address Translation)
+		- We have create NAT Gateway at Public Ip Bcz NAT Gateway Configure At Where Internet Access Available,Entry in Private IP 
+		Basic Work is Public To Private Conversion 
+		If we create NAT Gateway Then We have proivde Elasic IP
+		VPC -> NAT Gateways -> 
+		Subnet - Select Subnet at where we have to create NAT Gateway 
+		Elasic Ip Allocation ID - Here we have allocate Elasic IP
+		Add Tag - give name
+		Create NAT Gateway
+		After Create NAT Gateway Way We have Entry in Private Ip in Route Tabel
+		
+		Go to Route Table then Select ALready Create Private Route Table then Associate Subnet
+		Here We associate Private Subnet
+		then Entry in Route Table
+		Route -> edit
+		add Entry here 0.0.0.0/0 In Target select NAT Gateway We have created Earlier
+		
+	
+***** With the Help of Lunch VPC Wizard we have create Directly to new VPC in Few Step & Use We have not follow All Above step like Routing Table,
+	  IGW, Etc...
+	  
+	  Step
+	  VPC -> Lunch VPC Wizard -> Select Option Any One & Create
+----------------------------------------------------------------------------------------------------------------------
+												Peering Connection
+----------------------------------------------------------------------------------------------------------------------
+
+Peering Connection - Multiple VPC Combine then its call Peering Connection
+				   - After VPC Peering Done both VPC act like single Network
+				   - Any of the Machine in any of subnet can communicate each other using private Ip
+				   - Create In Same Account,Different Account ,Different Region
+				   - Important Things is that Ip use at subnet in both region must be different
+				   - Here is show Two Type 1. Accepter 2. Requester.
+				   - Requester Send request to Other VPC
+				   - Accepter Accept the Request send by Requester
+				   
+	Step :-
+		- Create 2 VPC in Different Zone
+		- Lunch Instance in Different VPC in Different Subnet
+		
+How to Create Peering Connection
+		- VPC -> peering connections -> create Peering Connection
+		- Peering connection name tag - Give name to peering connection
+		- VPC (Requester)* - Select VPC Requester
+		- Account - Select the Account 
+					1. My Account - Select In Your Current Account
+					2. Another Account - If use Another account then Select this & Type Account ID
+		- Region  - Select Region Option
+					1. This region (ap-south-1)	- If requester VPC in Current Region then select this
+					2. Another Region - If Requester VPC is in Different Region then Select this & Select Region
+		- VPC (Accepter)* - Select Accepter VPC ID
+		- Create Peering Connection
+		- Request Create, But Currently SHow status Pending at accepter
+		- If we check at Accepter side so we show one request receive at peering connection
+		- Accept the request 
+		- Select Request -> Action -> Accept request
+		- After Request Accept We have entry in Route table of Requester Side , Accepter Side
+		- In Requester side Route table We have mention Accepter side Ip Address target is Peering Connection
+		- In Accepter side Route table We have mention Requester side Ip Address target is Peering Connection

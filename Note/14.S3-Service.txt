@@ -1,0 +1,372 @@
+S3(Simple Storage Service)
+	 - Amazon S3 is a service offered by AWS that provides object storage through a web service interface.
+	 - Amazon S3 uses the same scalable storage infrastructure that Amazon.com uses to run its global e-commerce network
+	 - Amazon S3 has a simple web services interface that you can use to store and retrieve any amount of data, at any time,
+   	   from anywhere on the web.
+	 - It gives any developer access to the same highly scalable, reliable, fast, inexpensive data storage infrastructure 
+	   that Amazon uses to run its own global network of web sites.
+	 - This guide explains the core concepts of Amazon S3, such as buckets, access points, and objects, and how to 
+	   work with these resources using the Amazon S3 application programming interface (API).
+     - Simple Storage Service
+	 - Backup,Snapshot stored in S3
+	 - Scalable storage in the Cloud
+	 - Migration is also use
+	 - Download/upload Data here
+	 - Static Website Hosting here
+	 - Data Storage (Here Data stored is Based on Object)
+	 - S3 is Object based Storage (IN EBS Block based Storage)
+		In S3 Every File is act Like one Single Object ,It is not depend on file size its big or small file
+		Like ., txt 
+				mp3
+				mp4
+				bin
+	 - If File is 10 kb/10mb/1Gb/10Gb all are is single object
+	 - S3 is Provide container in container we stored our file
+	 - S3 Provide Certain space in container in this space we have to stored our data this space is called Bucket
+	 - In Bucket We have to stored our data
+	 - Single Bucket size is 0-5 TB
+	 - By-Default 100 Bucket Created by Single user/Account,If we have to Increase this Bucket then we can do this with the help of AWS
+	 - Not Create in One Bucket into 2nd Bucket(Ek bucket k under dusri bucket nhi create kr sakte)
+Properties of Bucket
+	- Name must be unique
+	- Static Website Hosting(Static means no any change in data)
+	- Versioning 
+			- If Not Enable then If you create one file and stored in Bucket then if you change the content of that file then 2nd time to stored this file on
+			bucket then it can remove content of previous file and add new content of this file
+			SIngle FIle Latest Version stored in Bucket If Not Enable Versioning
+			- If Enable then It can stored the previous created file content & If Change the content of file then stored 2nd time then it can stored both file
+			previous & Latest file.
+			Multiple version stored in Bucket if Enable
+	- Logs can be generated through Cloudwatch or this
+	- Permission/policies-- Here we have to create Policy for who can access our bucket,Any Certain User or Certain Account to access bucket
+	- Replication - It is One Type of Backup Replication Created Between Multiple Bucket.For Example If We Enable Replication in Bucket 1 with Bucket 2 then If upload any data in
+	Bucket 1 then it can automatically upload in bucket 2 .
+		If Bucket 1 closed then data already stored in bucket 2 then we can access through bucket 2
+		If we upload File in Bucket 1 before Replication Enable that file not stored in bucket 2
+		Before Replication enable uploaded file not stored in bucket 2,After Replication Enable then upload all file stored in bucket 2
+		
+ - S3 has one more feature for prise Control is called Storage Classes
+	In which class you can stored your data
+	Multiple Class is here	
+	 1. Standard - If you have access Data & Perform any action on that data in Every 2-3 days then stored this data on Standard.
+				   - Prise for storage is high & put/get(upload/download) file prise is low
+				   
+	 2. Standard Infrequant access - If you have access Data & Perform any action on that data in single time in 1 or 2 month then stored in this class
+				   - Prise for storage is low compared to upload/download file
+				   
+	 3. One Zone IA- In this class data stored in single zone then if any issue in that zone then we have lost our data
+				   
+	 4. Glacier - If we access data on single time in 6 month or 1 year is stored here.Here data stored in compress & stored here
+				- If we retrive data at that time we have to request for that & data receive after some time,Here data receive is approx some hours
+				
+	 5. Deep Glacier - Here also data stored in compress & stored,For retrive data it can get min 1 days to access 
+				- Costing is very low but retrive time is very high
+				
+	 6. Intelligent Tiering - Here Create certain rule then apply this rule for bucket then bucket work on that rule
+				- Like if we create some condition if no one access data in Standard class then data go to Standard Infrequant class then if not 
+				  access that data then GOTO Glacier class like this we have to create rule for bucket
+				  
+
+	Except One Zone IA class all other classes All available zone then it can stored our data copy to another zone than if any issue at that
+	time we can access our data with the help of different zone( Jitne bhi zone available hai us region me usme sab data ki ek copy rakhenge 
+	so if ek zone down ho jaye to dusre me hum apna data check kr paye)
+
+
+How to create S3
+
+Old Method
+
+	Service -> S3 -> Create Bucket
+	1. Name and region
+		Bucket name - Give name to Bucket
+		Region - Select region
+		Copy settings from an existing bucket
+		Next
+	2. Configure options
+		Versioning - If Enable Versioning then tick here
+		Server access logging - Tick if Log create,If tick then provide Target bucket and Target prefix
+		Tags - FOr Identification give name to this
+		Object-level logging - Tick if work through API in CloudFront in AWS,If Multiple service link with this then which service access through this bucket
+						we have to check with this ,Generate log for this what service & how to service access,Provide full path for this how to service access
+		Default encryption - Tick if encryption Enable for Object
+		Advanced settings
+			Object lock - If Tick then object Permanent stored in Bucket,then we can not delete object
+		CloudWatch request metrics - Tick if Monitor requests in your bucket
+	3. Set permissions - Here we have give bucket access permissions
+						Multiple Policy show here tick as per requirement
+		Next
+	4. Review
+	 Create Bucket
+
+New Method
+
+		Service -> S3 -> Switch to the new console -> Create Bucket
+		General configuration
+			Bucket name - Give name
+			Region - Select region
+		Bucket settings for Block Public Access
+			Permission related show here
+		Advanced settings
+			Object Lock  - Select Enable or Disable
+		Create Bucket
+	In New Method It can not ask for Log or Versioning or Much more ,In New Method we can do more change after bucket create then we can change anything
+	For this show video 03/04/2020 after 49:00 Minutes
+	New Mathod is good for regular use bcz it can take Multiple feature for this we
+		
+After Create If you can upload Data on Bucket,Upload done then any one access to that data with the help of object link
+
+
+********Rules for Bucket Name*****************
+Bucket names must be between 3 and 63 characters long.
+
+Bucket names can consist only of lowercase letters, numbers, dots (.), and hyphens (-).
+
+Bucket names must begin and end with a letter or number.
+
+Bucket names must not be formatted as an IP address (for example, 192.168.5.4).
+
+Bucket names can't begin with xn-- (for buckets created after February 2020).
+
+Bucket names must be unique within a partition. A partition is a grouping of Regions. AWS currently has three partitions: aws (Standard Regions), aws-cn (China Regions), and aws-us-gov (AWS GovCloud [US] Regions).
+
+Buckets used with Amazon S3 Transfer Acceleration can't have dots (.) in their names. 
+
+
+How To Create Bucket in New Method
+
+
+			Service -> S3 -> Switch to the new console -> Create Bucket
+		General configuration
+			Bucket name - Give name
+			Region - Select region
+		Bucket settings for Block Public Access
+			Permission related show here Here 4 type Of permissions show if You ON then no one can public access to this data
+			if OFF then give multiple options available for permissions 4 type of permissions available here
+			1. Block public access to buckets and objects granted through new access control lists (ACLs) -- If Particular user to give access
+			2. Block public access to buckets and objects granted through any access control lists (ACLs) -- If All User to give access
+			3. Block public access to buckets and objects granted through new public bucket or access point policies  -- If any Policy Attach to Particular bucket then OFF this
+			4. Block public and cross-account access to buckets and objects through any public bucket or access point policies  - If any Policy Attach to All bucket then OFF this
+			
+		Advanced settings
+			Object Lock  - Select Enable or Disable
+		Create Bucket
+		
+		
+Properties --
+		
+		After Create Bucket Multiple Properties here for Bucket 
+		How to check
+		
+		Select Bucket -> Properties ->
+		- Versioning - Multiple Version of File(Object) Stored Here
+		- Server Access Logging - Detail show of request receive to generate log for this
+		- Static website hosting - Website Host here in static website no one can change after create
+		- Object-level Logging -  Cloudtrail k through Monitor Any Account and Generate Log then do this
+		- Default Encryption - Generate Key for Encryption,With help of this Key you can decrypt data
+		
+******Versioning
+
+	- 1st Disable Versioning
+	- Upload 1 file
+	- Open file for content check
+	- change the content of file in our system
+	- upload 2nd time same file with different content
+	- Old file content remove & show new content after change show here
+	- Old version of file's content remove & New content show here
+	- If our requirement is to stored both the version of data means old & New both content of file stored here then 
+	  Enable Versioning
+	How to enable -
+		Select Bucket -> Properties -> Versioning -> Enable
+	- After done this In Bucket selection windows new feature "Version" is available with the help of this we do Hide or show previous version file
+	- After do this then upload file with new content then bucket stored both file
+	- If you check file in bucket its show Latest file but in Versions  in upper side of windows select show then old version file show here
+ 
+
+******Server Access Logging
+	- For Logging we have Enable then stored Log for this Bucket
+	- After Enable We Provide Target Bucket (Select Target)& Target prefix (Give Name to target)
+    - After done this if any one access this site then log generated for this
+
+******Static website hosting
+
+
+
+
+******Object-level Logging
+	- API k Through work at that time use this
+	- Generate Log for what service use & where to use 
+	
+	
+	
+****************************************Advanced settings in Properties**********************************************
+
+
+	- Object lock - If Enable It then No one Can delete object on Bucket,We have Enable Or Disable at time of Creation after create account not enable/disable this
+	- Tags - Give name to object for Identification 
+	- Transfer acceleration - For Uploading Big File in S3 so for Speed increase we have to enable it,then its speed increase for  uploading file
+	- Events - For Creation of Notification use this,If any event occur then then give notification through MSG or E-mail
+		How to create Notification
+			Add Notification 
+				Name - Give name
+				Events - Select Events in which event occur then notification receive
+				Prefix -Give Name to Notification ,Kis name se notification Ayega
+				Suffix - Give name
+				Sent to - Kiske through Notification send krna hai wo batana hai
+				
+	- Requester pays - The requester (instead of the bucket owner) will pay for requests and data transfer
+		Here 2 Option for Charge pay 
+			Enable requester pays - Requester will pay for requests and data transfer. While Requester Pays 
+				is enabled, anonymous access to this bucket is disable
+				Requester Download data from bucket then requester pay charges for this to download file
+			Disable requester pays - Bucket owner will pay for requests and data transfer.
+				Requester Download data from bucket then bucket owner pay charges for this
+	
+	
+***************************************************Permission*******************************************************
+
+	Select Bucket -> Permission
+		- If ON Block all Public access then no one can access this bucket Data
+		- If OFF Block all Public Access then Access bucket Data
+	How to Public Access for All
+	
+		- 1st OFF Block All Public Access
+		- Then Goto Access Control List
+		- Then Goto Public access  -> 
+		- Select Everyone then
+			Tick as per requirement Below
+			  Access to the Object
+				Link Object - Only List the object then select this
+				Write Object - If Anyone Change on that object then select this
+			  Access to this bucket's ACL
+				Read Bucket Permission - Only List Bucket Data
+				Write Bucket Permission - Changes in Bucket Data
+			After Done this Save it
+		- Then Try to Open Object URL then it can not open Bcz we give public Access to Bucket not perticuler file
+		- We have to give Public access to perticuler file
+		- How to Public access to file
+			- Select File --> Action -> Make public -> Make Public
+		- Then Open Object URL then content of file show 
+		
+	How to access for Perticuler AWS Account
+
+		Select Bucket -> Permission
+		- 1st OFF Block All Public Access
+		- Then Goto Access Control List
+		- Then Goto Access for object owner 
+			Add Account - Then Give Require detail then Save
+			
+*******************************************Web Site Host**********************************************************
+
+	-  Create Bucket For Website Host
+	- Name of Bucket is Domain Name of Website
+	- For Website Host we have OFF Block ALL public Access
+	- Create Bucket
+	- After Create Content of Website Upload in Bucket
+	- Then Properties - > Select Static Website Hosting -> Select Use this Bucket to host a website
+			Index Document - Give name to file already upload in Bucket for website host
+			Error Document - Give name to file for if any error at that time which file content display,file already upload in Bucket
+	- Save 
+	- Then Permission -> Public Access
+		- Select Everyone then
+			Tick as per requirement Below
+			  Access to the Object
+				Link Object - Only List the object then select this
+				Write Object - If Anyone Change on that object then select this
+			  Access to this bucket's ACL
+				Read Bucket Permission - Only List Bucket Data
+				Write Bucket Permission - Changes in Bucket Data
+			After Done this Save it
+	- Then Add Bucket Policy Here
+	How to Add Bucket Policy
+	- Permission -> Bucket Policy 
+		In AWS Many Sample Bucket Policy Available (https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html)
+		Select Anyone from this & Paste in Bucket Policy Window
+		Here one thing is much important is ARN name change in Resource & Change then ARN name for this bucket
+		Save
+	- After done this in Bucket uploaded file for website content make public this file
+	- WIth the help of Endpoint access website 
+	- Endpoint is available in Properties -> Static website hosting -> Select Here Endpoint for access website
+	- Endpoint K Through Website OPen kr sakte hai
+
+How to Attach with DOmain Name
+	- Service -> Route 53 - > DNS Name Application -> Get started Now -> Create Hosted Zone 
+	- Give Domain Name , Type And Create 
+	- Then Copy Name Server Entry & Paste in Where we have host Our Website
+	- Create Record Set 
+		Name - Give Name
+		Type - Select Type
+		Alias - Yes
+		Alias Target - Select S3 Target
+		Create
+	- Then Access with the Domain Name then Content of File Already upload in Bucket show here
+
+**********************************************Lifecycle Rule*******************************************************
+
+Lifecycle Rule - Here We create Rule of Perticuler object or all object in Bucket,How many Time Obbucket Available in Standard Class then goto Standard Infrequant Class or Glacier or Deep Glacier
+					After How many day Object Delete,Here We Provide Certain rule for Object 
+					If Not use in One Year then delete object automatically
+How to Create 
+
+	- 1st Create Bucket
+	- Select Bucket -> Management -> Add Lifecycle rule
+		Step 1 - Name and Scope
+		Enter a rule name - Give name 
+		Choose Role Scope
+			Limit the scope to specific prefixes or tags -- For Perticuler Object then Select
+			Apply to all objects in the bucket -- For All Object Select 
+		Next
+		Step 2 - Transitions
+		Storage class transition - For Which Version create Rule from below 2
+			Select Anyone from below
+			1. Current Version - For Current Version then select this
+			2. Previous Version - For Previous Version then select this
+		Select Version & then Add transition
+			Object creation - After Object Create Object Where to move select here(Object Create Krne k baad kon se class me move hona chahiye wo batana hai)
+			Days After Creation - After How many day of creation object move to mention class,Here Define Days(Kitne days ke baad object move hona chahiye)
+			Here we select Multiple CHoise Means 1st Object Move to Standard Infrequant Access then after SOme days then transfer to another class then also done here
+	      - If Our Object in Standard & After 30 days if not in use then object move to standard Infrequant access class then if 
+		    if we use object at 35 days then object move to further in standard class
+		   Next
+	   Step 3 - Expiration - After how many days expire our object Mention here
+			Select Version Current or Previous
+			Provide Days after object expire
+			Next
+	   Step 4 -Review
+			Save
+			
+************************************************Replication*********************************************************
+Replication - In Simple Form we have called Backup of Bucket,We have Backup Bucket After Enable Replication Feature Enable
+			  Before Replication Create Versioning must be enable
+			  Replication has 2 Type
+			  1. Cross region Replication - Replication Between Two DIfferent region
+			  2. Same region Replication - Replication Between Same Region
+
+How to Create
+	Select Bucket Already Create -> Management -> Replication -> Add Rule or Get Started  ->
+	Step 1 - Set Source
+		Enable Versioning -- Versioning Enable
+			Select Entire Bucket or Prefix
+		If AWS Key Created for Encryption then Tick "Replicate objects encrypted with AWS KMS" & Provide Key for already Created
+		Next
+	Step 2 - Destination --  Provide Destination where we have to create Replication
+		Select from below
+			Buckets in this account - Same Account select this
+			Buckets in another account - Different Account select this
+		After Select above then select Destination Bucket already Created or Create New Bucket
+		Storage CLass change then Tick "Change the storage class for the replicated objects"
+		Ownership of Object Change then Tick "Change object ownership to destination bucket owner "
+		Replication Require Very Fast then Tick "S3 Replication Time Control",This service has some additional Charge
+		Next
+	Step 3- Configure Rule Option - Here we require 1 IAM role bcz service Move on 
+		IAM role - Create Role
+		Rule name - Give Name to rule
+		Status  - Enable/Disable -- Here we enable
+		Next
+	Step 4 - Review
+		Save
+		
+After Replication Done then we have to Upload File into Bucket then this file Automatically upload into replicated bucket(New Bucket Create)
+
+			
+	
+

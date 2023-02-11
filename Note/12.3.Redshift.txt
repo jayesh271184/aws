@@ -1,0 +1,17 @@
+RedShift - Amazon Redshift is a data warehouse product which forms part of the larger cloud-computing
+           platform Amazon Web Services.
+		 - The name means to shift away from Oracle, red being an allusion to Oracle, whose corporate
+    	   colour is red and is informally referred to as "Big Red."
+		 - Amazon Redshift is the most popular and fastest cloud data warehouse. Redshift is integrated 
+		   with your data lake, offers up to 3x faster performance than any other data warehouse, and 
+		   costs up to 75% less than any other cloud data warehouse.
+		 - Data Warehouse solution - Deal with very Large Data
+		 - Cluster of Database deploy here
+		 - Database site is in petabyte
+		 - 1 petabyte = 10000 tb
+		 - If very Big company merge at that time it can first deploy RedShift cluster & then merge it
+		 
+How to create cluster
+	service -> RedShift -> Create cluster
+	see video 30062020 37:00 minute
+	

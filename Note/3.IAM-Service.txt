@@ -1,0 +1,66 @@
+IAM - Identity and Access management
+	- IAM enables you to manage access to AWS services and resources securely. Using IAM, you can create and manage 
+	AWS users and groups, and use permissions to allow and deny their access to AWS resources. IAM is a feature 
+	of your AWS account offered at no additional charge.
+
+users : IAM User Create
+Permission/Police : Service Permission to User
+Group : Create group of permission and Give Permission to user (Main Advantage of create group is for If any user create then Directly
+        We assign this group of permission to this user otherwise we have assign user to  permission)
+		- User level permission
+role  : Permission to a service for accessing another service (Ex. I have 3 service 1. EC2 , 2. S3 , 3. IAM. If I assign 
+		one service to Groups particular User  then it can give like user first go to the EC2 service to IAM Service).
+		- Service level permission.
+
+AWS Access Type: - 
+	- AWS Management console -- aws.amazon.com Site k through work
+		With help of below to Login
+		- root id/IAM User
+		- password
+	- AWS CLI(Command Line Interface) -- Command k through work
+		With Help of below to Login
+		- Access id 
+		- Secret access Key
+For Security Purpose we have use Both above
+
+Security Status
+1. Delete your root access key - If you Delete root access key then no one can access root user bcz its Access key delete then no one login
+2. Activate MFA on your root account
+3. Create Individual IAM users
+4. Use group to login permission
+5. Apply of IAM password policy
+
+
+1. Delete your root access key - If you Delete root access key then no one can access root user bcz 
+			its Access key delete then no one login( It can Work on AWS CLI Type)
+		
+2. Activate MFA(Multi Factor Authentication) on your root account - Here we have Also Use MFA(Multi Factor Authentication) Method for Security Login
+In MFA Three Type to use Manage Device
+	1. Virtual MFA Device - With the help of Authenticator App Install and receive code to use.this code change every 30 sec
+	2. U2F Security Key - Its Like Pendrive type Device It can insert in system then system Login Otherwise login not possible.
+	3. Other Hardwere MFA Device - Gemalto Token It is One type of Device that generate code this code use to Login User account
+
+3. Create Individual IAM users - Create User With Multiple Option Like Password Security,Add Tag,Permission ( Create Group and give
+   Permission to that group,DIrect Give permission,Permission give with help of Other user permission)
+   Step:-
+	   User name
+	   Password(Different type of password security given like At time of login password change,Secret key password )
+	   Permission (Create Group of permission and Give Permission to that user,DIrect Give permission,Permission give with help of Other user permission)
+	   Add Tag (Give Name to User for Identification)
+	   USer create Done.
+
+4. Use group to login permission - With Help of Group we have assign permission for the user.
+
+5. Apply of IAM password policy - Use a password policy to require your IAM users to create strong 
+   passwords and to rotate their passwords regularly
+   
+Create Policy :- We have to create policy as per our Service requirement.
+
+Roles :- How to Create Roles
+		Step:
+		Create role
+		Select Service(Parent Service)
+		Select Police (Child Service)
+		Add Tag (Give Identification)
+		Role Name and Role Description add
+		Then Role Create

@@ -1,0 +1,357 @@
+Router 53
+		- Route 53 is DNS service of AWS
+		- Scalable DNS and Domain Name Registration
+		- Route 53 Does not require region selection
+	DNS :- Domain Name Server
+		 - It can Convert IP to Name & Name to IP
+		 - It give suitable name to IP Address
+		 - www.google.com  --- FQDM(Fully Qualified Domain Name)
+		 - DNS Work in 4 Small Step
+			1. .(Root Server) 
+				- Allover the World User can Purchase Domain then Its IP Stored is Here 
+				- Allover World 13 root server available
+			2. .com/.in/.tk.us  (TLD - Top Level Domain)
+				- Then If you purchase .com then request go to .com server then search your Domain name or 
+				  purchase .in then request go to .in server then search your domain 
+				- Like If you type www.google.com then first go .com server & then serach google.com
+				
+			3. google.com/yahoo.in (Domain Name)
+			4. www.google.com/image.google.com (Sub Domain)
+		
+		- If I Create New Site Like www.chintan.com If I Browse this site 1st time no one Browse this site then 1st It check into
+		  cashe data of its own to check any data available for this site? due to 1st time Browse then not show any data then its
+		  can go to its nearest ISP (Internet service providers) then it check any data available for this site? If find it data here 
+		  then ok but if not find then go to 2nd ISP but it has no any data show here bcz no one Browse this site Bcz its new site
+		- Then Finally go to root server then root server check domain name last its .com then tell to ISP .com IP then go to .com server
+		  & find your name of domain name in TLD
+		- After Receive IP then ISP go to .com server & Find name of chintan(Domain name) in .com server if domain name not found then tell
+		  ISP domain name not exists
+		- DOmain name exists then go to site & see all data for this site (If site name is www.chintan.com)
+		- But if site name is like movie.chintan.com then it can find file name entry in domain name server & tell to find this server & access this file
+		  then go to sub domain & see all content of data & Open Site
+		- 1st time open site then if any other open this site then it can 1st check its check cashe data its not found then
+		  go to ISP in ISP it give data for this site bcz already open earlier then it can directly open this site.
+		- Like this DNS Work
+	
+******************************************** Feature of Route 53 ***************************************************
+
+1. Domain Register  - Provide Domain Name through Route 53
+
+2. Domain Hosting   - We have attach with resource(Like ELB,EC2 Instance,On-Premises Machine)
+				    - Attach with Domain name then  Directly provide to CLient with help of Domain name
+3. Routing Policies - Routing - It is Create Route between Source & Destination.
+							  - How to request go to server here we mention 
+					- Our Request how to go to Server (Kis tarah se hmri request server pr pohchegi wo batayenge)
+4. Record Set Creation - 
+					- IN google Search DNS Record types
+						A (Host address) - IPv4 Address
+					  	AAAA (IPv6 host address) - IPv6 Address
+					  	ALIAS (Auto resolved alias) - Different name of Domain Provide here
+						CNAME (Canonical name for an alias) - Already give name then here we have to bind resource with this name 
+						MX (Mail eXchange) - For Main Server Configure
+						NS (Name Server) - Where we have all our configuration done its call name server if any request receive it can receive through name server 
+						PTR (Pointer) - IP to name conversion at that time use
+						SOA (Start Of Authority) - It can show where is your domain host (If create in AWS then it can provide Name server & SOA )
+	
+	
+*********************************************** Routing Policies ***************************************************
+
+ - Six type of routing policies available here
+	1. Simple routing Policy - Purchase Domain name & Attach Resource(EC2,ELB,etc..)
+			- Any one go to domain name then it can see then content of already stored in server 
+			- Single Domain can use only single server
+	
+	2. Latency routing Policy - Request receive from user at that time Who can Earlier to solve its request then divert its
+			request to that Server(zone).(Jaha se iski Latency Low hogi vo server pr uski request ko divert kr dega)
+			
+	3. Geo-Location routing Policy - Here we have to mention our request receive from particular location then where it to divert
+			- Particulate location se particulate server per request divert kr denga
+			- Request Divert to particular location to particular server
+	
+	4. Weighted Routing Policy - Here we have to define how many percentage request go to this server & How many request go this server
+			- Here We have define load divide into multiple server
+ 			- Here divide request with the reference of 254 that means it treat 254 = 100 then convert its % 
+	
+	5. Multi-Value Routing Policy - Same Domain name with multiple Entry (Same domain name k sath multiple entry kr sakte hai)
+			- Same Domain name connect to different server or resource we can done here
+			
+	6. Fail-over Routing Policy - Here is Master-slave concept follow
+			- Here we have to create one server to Master & another to Slave
+			- Then if Any issue in Master server then all request divert to Slave server 
+			
+********************************************************************************************************************
+			
+How to Create Route 53
+
+ Service -> route 53 -> DNS Management -> Get started now -> Create Hosted Zone (Here we have Entry Our Record Set,Resource & Domain Name Attach Here)
+	Domain Name  - Give DOmain Name Already Purchase
+	Comment - For Reference Type 
+	Type - Public Hosted Zone - All over the World Access then select - Select this
+		   Private Hosted Zone Amazon VPC - If work only in VPC then select
+	Create it
+	It can Provide 2 Record	
+		1. Name Server(NS) - We have to Register All NS entry in Where we have to register our Domain(Jaha se Domain Name Purchase(Register) Krvaya hai waha pe iski entry krni padegi)
+		2. Start of Authority (SOA) - It provide Where we have host our DNS
+	Select Name Server(NS) & then Copy One-by-one & Paste into Domain Name Register Website as per Mention below.
+		TTL(Time to Leave) Our Domain Name Entry How many Time Maintain in cache of Opposite machine(DOmain Name ki entry Kitne time tak samne vali machine k cache me rahegi) - Select 1 Minute
+		After do this save record set
+	Do TTL for above both service SOA & NS
+	
+		
+	How to Register NS Entry in DOmain Server
+		In Which Website we have to register Domain Open this Website & Select Domain Name 
+		Select Manage Domain -> Management tools -> Nameservers -> Select Use custom nameservers -> Entry All Nameservers one by one
+
+After Done this Process " Domain Name Host " Done
+		
+		
+   - Launch 2 Instance Here create Mumbai region with SSH & HTTP Port Allow in Security Group & Type Script for HTTP Service Like Website Launch
+   - Create Application Load Balancer Here create Mumbai region--With the help of DNS name we have to access Load Balancer
+   - Launch 1 or 2 Instance in Different or Same region here create Ohio region with SSH & HTTP Port Allow in Security Group & Type Script for HTTP Service Like Website Launch
+   - Create Application Load Balancer in Same or Different Region Here Create Ohio --With the help of DNS name we have to access Load Balancer
+
+1. Simple Routing Policy - Here we have use one name in one time not use same name to different Ip 
+IP Address
+	Service -> route 53 -> DNS Management -> Get started now -> Hosted zones -> Create Record Set
+		Name - Type Sub domain name if want 
+		Type - Here We have to mention Which type of record you have enter. 
+			   If we attach one single Machine with IP then select A-IPV4, --- Select this
+			   If DNS name then CNAME Like this we have use
+		Alias - Yes or no - Select No
+		TTL - 1 Min
+		Value - IP of Machine(EC2 Instance),We have to select Multiple IP Address
+		Routing Policy - Select Simple
+		Create
+		
+DNS Name
+
+	Service -> route 53 -> DNS Management -> Get started now -> Hosted zones -> Create Record Set
+		Name - Type Sub domain name if want (Example -- elb.chintan.com (elb = sub domain name)
+		Type - Here We have to mention Which type of record you have enter. 
+			   If we attach one single Machine with IP then select A-IPV4,
+			   If DNS name then CNAME Like this we have use  --- Select this
+		Alias - Yes or no - Select No
+		TTL - 1 Min
+		Value - DNS name of Load Balancer give here,Here we have to give DNS Name create on other 
+				Like Google or Any other then we also select this here,We have use Any Cloud Load Balancer
+		Routing Policy - Select Simple
+		Create
+
+		After Done this Browse elb.chintan.com then open above site
+	
+DNS Name - With Alias -- If your Resource Create in AWS then Use Alias - yes (Load Balancer Deploy in AWS then use Alias Yes )
+						 If we use Alias then In Type we have select A-IPv4 Address
+						 
+	Service -> route 53 -> DNS Management -> Get started now -> Hosted zones -> Create Record Set
+		Name - Type Sub domain name if want (Example -- elb.chintan.com (elb = sub domain name)
+		Type - Here We have to mention Which type of record you have enter. 
+			   If we attach one single Machine with IP then select A-IPV4, --- Select this
+			   If DNS name then CNAME Like this we have use  
+		Alias - Yes or no - Select Yes
+		Alias Target - Select AWS Resource -- Here we select Load Balancer ALready Created
+		Routing Policy - Select Simple
+		Create
+
+		After Done this Browse elb.chintan.com then open above site
+
+2. Weighted Routing Policy  - Divide the traffic according to which resource we have to access
+							- Here we have create 2 record set with same name with different traffic percentage & Same DNS Name
+							  so, we can divide traffic into 2 different region
+							- It can use at that time when we have to move on to on-premises to AWS at that time we have use,
+							  1st we have transfer 10 % if no any issue then then traffic 20...30..40.. 50.. & 100% traffic to 
+							  AWS Like this we have to use it
+	Create Record set - 1
+	
+	Service -> route 53 -> DNS Management -> Get started now -> Hosted zones -> Create Record Set
+		Name - Type Sub domain name if want (Example -- weight.chintan.com (elb = sub domain name)
+		Type - Here We have to mention Which type of record you have enter. 
+			   If we attach one single Machine with IP then select A-IPV4, --- Select this
+			   If DNS name then CNAME Like this we have use  
+		Alias - Yes or no - Select Yes
+		Alias Target - Select AWS Resource -- Here we select Load Balancer ALready Created in Mumbai Region
+		Routing Policy - Select Weighted
+			Weight - Give How many % Traffic goto selected Server - type 60
+			Site Id - Give name for reference
+		Evaluate Target Health -  yes or no  --- Select Yes if you have health check of this record ,Check health of Load Balancer - Select No
+		Associate with Health check - Yes or No --- Select Yes if you have health check of this record ,Check health of Load Balancer
+		Create 
+		
+	Create Record set - 2
+	
+	Service -> route 53 -> DNS Management -> Get started now -> Hosted zones -> Create Record Set
+		Name - Type Sub domain name if want (Example -- weight.chintan.com (elb = sub domain name)
+		Type - Here We have to mention Which type of record you have enter. 
+			   If we attach one single Machine with IP then select A-IPV4, --- Select this
+			   If DNS name then CNAME Like this we have use  
+		Alias - Yes or no - Select Yes
+		Alias Target - Select AWS Resource -- Here we select Load Balancer ALready Created in Ohio Region
+		Routing Policy - Select Weighted
+			Weight - Give How many % Traffic goto selected Server - type 40
+			Site Id - Give name for reference
+		Evaluate Target Health -  yes or no  --- Select Yes if you have health check of this record ,Check health of Load Balancer - Select No
+		Associate with Health check - Yes or No --- Select Yes if you have health check of this record ,Check health of Load Balancer
+		Create 
+		
+ After Done this Traffic Divide into 2 region 60% Traffic goto Mumbai Region & 40% Traffic go to Ohio Region
+ 
+3. Latency Routing Policy - Here we have provide Nearest Region, Request receive from nearest region then traffic transfer to this region
+						  - Create 2 Record set with same name
+						  
+	Create Record set - 1
+	
+	Service -> route 53 -> DNS Management -> Get started now -> Hosted zones -> Create Record Set
+		Name - Type Sub domain name if want (Example -- Lat.chintan.com (elb = sub domain name)
+		Type - Here We have to mention Which type of record you have enter. 
+			   If we attach one single Machine with IP then select A-IPV4, --- Select this
+			   If DNS name then CNAME Like this we have use  
+		Alias - Yes or no - Select Yes
+		Alias Target - Select AWS Resource -- Here we select Load Balancer ALready Created in Mumbai Region
+		Routing Policy - Select Latency
+			Region - Select Region here - select ap-south-1
+			Site Id - Give name for reference
+		Evaluate Target Health -  yes or no  --- Select Yes if you have health check of this record ,Check health of Load Balancer - Select No
+		Associate with Health check - Yes or No --- Select Yes if you have health check of this record ,Check health of Load Balancer
+		Create 
+		
+	Create Record set - 2
+	
+	Service -> route 53 -> DNS Management -> Get started now -> Hosted zones -> Create Record Set
+		Name - Type Sub domain name if want (Example -- Lat.chintan.com (elb = sub domain name)
+		Type - Here We have to mention Which type of record you have enter. 
+			   If we attach one single Machine with IP then select A-IPV4, --- Select this
+			   If DNS name then CNAME Like this we have use  
+		Alias - Yes or no - Select Yes
+		Alias Target - Select AWS Resource -- Here we select Load Balancer ALready Created in Ohio Region
+		Routing Policy - Select Latency
+			Region - Select Region here - select us-east-1
+			Site Id - Give name for reference
+		Evaluate Target Health -  yes or no  --- Select Yes if you have health check of this record ,Check health of Load Balancer - Select No
+		Associate with Health check - Yes or No --- Select Yes if you have health check of this record ,Check health of Load Balancer
+		Create 
+ 
+ After done this if request receive from india or nearest to India then go to Mumbai region & if request receive from Us or nearest to Us then go to Ohio region
+ 
+ 4. Geo-Location Routing Policy - Define if request receive from this region then go to there 
+								- Request Divert to particular location to particular server
+								- Create 2 record set with same name
+								- Divert Request based on Location
+								- It can Use Like if Different Country has different currency or language at that time use it.
+	Create Record set - 1
+	
+	Service -> route 53 -> DNS Management -> Get started now -> Hosted zones -> Create Record Set
+		Name - Type Sub domain name if want (Example -- geo.chintan.com (geo = sub domain name)
+		Type - Here We have to mention Which type of record you have enter. 
+			   If we attach one single Machine with IP then select A-IPV4, --- Select this
+			   If DNS name then CNAME Like this we have use  
+		Alias - Yes or no - Select Yes
+		Alias Target - Select AWS Resource -- Here we select Load Balancer ALready Created in Mumbai Region
+		Routing Policy - Select GeoLocation
+			Location - Select Location here - select India
+			Site Id - Give name for reference
+		Evaluate Target Health -  yes or no  --- Select Yes if you have health check of this record ,Check health of Load Balancer - Select No
+		Associate with Health check - Yes or No --- Select Yes if you have health check of this record ,Check health of Load Balancer
+		Create 
+		
+	Create Record set - 2
+	
+	Service -> route 53 -> DNS Management -> Get started now -> Hosted zones -> Create Record Set
+		Name - Type Sub domain name if want (Example -- geo.chintan.com (geo = sub domain name)
+		Type - Here We have to mention Which type of record you have enter. 
+			   If we attach one single Machine with IP then select A-IPV4, --- Select this
+			   If DNS name then CNAME Like this we have use  
+		Alias - Yes or no - Select Yes
+		Alias Target - Select AWS Resource -- Here we select Load Balancer ALready Created in Ohio Region
+		Routing Policy - Select GeoLocation
+			Location - Select Location here - select South America
+			Site Id - Give name for reference
+		Evaluate Target Health -  yes or no  --- Select Yes if you have health check of this record ,Check health of Load Balancer - Select No
+		Associate with Health check - Yes or No --- Select Yes if you have health check of this record ,Check health of Load Balancer
+		Create 
+	
+	After Done this if request receive from India then go to mumbai region & If request receive from South America then go to Ohio
+	
+5. Fail-over routing Policy - Here work like Master-Slave scenario.
+							- If Master machine Server Down then go to slave machine server.
+							- With the health of check we have to check machine down or up
+							- Here we have to create Health check on Machine , If only One Machine till work then route 53 says its Healthy
+							- Health check create for those all whose load Balancer used in create for Geo-Location routing policy - Here we create 2 Health check
+	Create Health Check
+			Service -> route 53 -> DNS Management -> Get started now -> Health Checks -> Create Health Check
+			 Configure Health Check	
+				Name - Give Name
+				What to Monitor - Kisko Monitor krna hai wo batana hai - select endpoint 
+			
+			 Monitor an endpoint
+				Specify endpoint by - If use Ip address then select IP address or If use DNS Name then select Domain Name - Select Domain Name 
+				Protocol - Select Protocol - Select HTTP
+				Domain Name - Provide Domain Name of Load Balancer -- for Mumbai region
+				Port  - 80
+				Path - Not fill
+			
+			Advanced Configuration
+				Do not change anything
+			Next
+			 Create Alarm - yes or no -- select No
+			Create Health check
+			
+		Also Create Health check for 2nd region(Ohio)
+
+	Create Record Set
+	
+	Create Record set - 1
+	
+	Service -> route 53 -> DNS Management -> Get started now -> Hosted zones -> Create Record Set
+		Name - Type Sub domain name if want (Example -- fail.chintan.com (fail = sub domain name)
+		Type - Here We have to mention Which type of record you have enter. 
+			   If we attach one single Machine with IP then select A-IPV4, --- Select this
+			   If DNS name then CNAME Like this we have use  
+		Alias - Yes or no - Select Yes
+		Alias Target - Select AWS Resource -- Here we select Load Balancer ALready Created in Mumbai Region
+		Routing Policy - Select Failover
+			Failover Record Type - Select Primary(Master) or Secondary(Slave) - Select Primary
+			Site Id - Give name for reference
+		Evaluate Target Health -  yes or no  --- Select Yes if you have health check of this record ,Check health of Load Balancer - Select Yes
+		Associate with Health check - Yes or No --- Select Yes if you have health check of this record ,Check health of Load Balancer - Select Yes
+		  Health check to Associate - Select Health check already Created -- Select Mumbai Health check
+		  
+		Create 
+		
+	Create Record set - 2
+	
+	Service -> route 53 -> DNS Management -> Get started now -> Hosted zones -> Create Record Set
+		Name - Type Sub domain name if want (Example -- fail.chintan.com (fail = sub domain name)
+		Type - Here We have to mention Which type of record you have enter. 
+			   If we attach one single Machine with IP then select A-IPV4, --- Select this
+			   If DNS name then CNAME Like this we have use  
+		Alias - Yes or no - Select Yes
+		Alias Target - Select AWS Resource -- Here we select Load Balancer ALready Created in Ohio Region
+		Routing Policy - Select Failover
+			Failover Record Type - Select Primary(Master) or Secondary(Slave) - Select Secondary
+			Site Id - Give name for reference
+		Evaluate Target Health -  yes or no  --- Select Yes if you have health check of this record ,Check health of Load Balancer - Select Yes
+		Associate with Health check - Yes or No --- Select Yes if you have health check of this record ,Check health of Load Balancer - Select Yes
+		  Health check to Associate - Select Health check already Created -- Select Ohio Health check
+		  
+		Create 
+		
+  After Done this Request go to mumbai server till if not any issue in mumbai region, If mumbai region is down at that time request go to Ohio region
+
+*********************************************************************************************************************  
+If we have to use multiple routing Policy then use Traffic flow create
+	For Multiple Routing Policy use we have to Create Traffic Flow
+	
+	
+How to create 
+
+		Service -> route 53 -> DNS Management -> Get started now -> Traffic policies -> Create Traffic Policy
+			Policy Name - Give name to Policy
+			Version Description
+			Next
+			
+			Connect to -- Select Parent Policy Here
+			Next
+			Create CHild Policy Multiple then create
+			 After DO this then 
+			Create traffic policy
+			Create Policy records
+			
